@@ -5,8 +5,10 @@ namespace WebApp.Logic
 {
     public class LeaderCalculator
     {
-        private PoliceEventsRepository eventsRepository;
-        private PoliceStationsRepository stationsRepository;
+        private readonly PoliceEventsRepository eventsRepository;
+        private readonly PoliceStationsRepository stationsRepository;
+
+
 
     }
 }
