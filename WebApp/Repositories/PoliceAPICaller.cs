@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WebApp.Services;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using WebApp.Models;
 using System.Text.Json;
-using WebApp.HelperFunctions;
-using System.Globalization;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace WebApp.Repositories
 {
@@ -32,5 +28,7 @@ namespace WebApp.Repositories
 
             return doc;
         }
+
+
     }
 }
