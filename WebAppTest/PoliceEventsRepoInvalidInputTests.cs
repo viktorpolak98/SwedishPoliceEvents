@@ -25,7 +25,11 @@ namespace WebAppTest
 
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
 
-            using (StreamReader reader = new StreamReader("C:\\Users\\vikto\\source\\repos\\WebApp\\WebAppTest\\TestData\\TestEvents.json"))
+            string directory = Environment.CurrentDirectory;
+            directory = Directory.GetParent(directory).Parent.Parent.FullName;
+
+
+            using (StreamReader reader = new StreamReader(directory + "\\TestData\\TestEvents.json"))
             {
                 json = reader.ReadToEnd();
             }
