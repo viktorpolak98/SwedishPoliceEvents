@@ -6,6 +6,7 @@ using System.Text.Json;
 using WebApp.HelperFunctions;
 using System.Globalization;
 using System.Threading.Tasks;
+using WebApp.Logic;
 
 namespace WebApp.Repositories
 {
@@ -13,7 +14,7 @@ namespace WebApp.Repositories
     {
         private readonly List<PoliceEvent> Events = new List<PoliceEvent>();
         private readonly Dictionary<string, EventType> EventTypeDict;
-
+        private readonly Leaderboard leaderboard; 
 
         /// <summary>
         /// For testing purposes
@@ -23,12 +24,14 @@ namespace WebApp.Repositories
         {
             this.Events = Events;
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
+            leaderboard = new Leaderboard();
         }
 
 
         public PoliceEventsRepository()
         {
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
+            leaderboard = new Leaderboard();
         }
 
         public async Task CreateEvents(string path)
@@ -38,12 +41,14 @@ namespace WebApp.Repositories
             if (doc == null) return;
 
             Events.Clear();
-
+            leaderboard.ClearDictionaries();
 
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
+                string locationName = Element.GetProperty("location").GetProperty("name").ToString();
+                EventType eventType = GetEventType(Element.GetProperty("type").ToString());
 
                 Events.Add(new PoliceEvent
                 {
@@ -52,18 +57,20 @@ namespace WebApp.Repositories
                     Name = Element.GetProperty("name").ToString(),
                     Summary = Element.GetProperty("summary").ToString(),
                     Url = Element.GetProperty("url").ToString(),
-                    Type = GetEventType(Element.GetProperty("type").ToString()),
+                    Type = eventType,
                     Location = new Location
                     {
-                        Name = Element.GetProperty("location").GetProperty("name").ToString(),
+                        Name = locationName,
                         GpsLocation = new GPSLocation
                         {
                             Latitude = gps[0],
                             Longitude = gps[1]
                         }
                     }
-                }) ;
+                });
 
+                leaderboard.AddCountEvent(eventType);
+                leaderboard.AddCountEventLocation(locationName);
             }
 
 
@@ -81,7 +88,7 @@ namespace WebApp.Repositories
         {
 
             return Events.Where(E => E.Location.Name == locationName).ToList();
-        } 
+        }
 
         public PoliceEvent GetPoliceEventFromId(string id)
         {
