@@ -7,6 +7,8 @@ using WebApp.HelperFunctions;
 using System.Globalization;
 using System.Threading.Tasks;
 using WebApp.Logic;
+using Microsoft.Extensions.Caching.Memory;
+using System.Threading;
 
 namespace WebApp.Repositories
 {
@@ -14,7 +16,9 @@ namespace WebApp.Repositories
     {
         private readonly List<PoliceEvent> Events = new List<PoliceEvent>();
         private readonly Dictionary<string, EventType> EventTypeDict;
-        private readonly Leaderboard leaderboard; 
+        private readonly Leaderboard leaderboard;
+        private readonly MemoryCache MemCache = new MemoryCache(new MemoryCacheOptions());
+        private readonly SemaphoreSlim RequestSemaphore = new SemaphoreSlim(1,1);
 
         /// <summary>
         /// For testing purposes
@@ -34,11 +38,30 @@ namespace WebApp.Repositories
             leaderboard = new Leaderboard();
         }
 
-        public async Task CreateEvents(string path)
+        public async Task CreatePoliceEvents(string path)
+        {
+
+            RequestSemaphore.Wait();
+
+            if (MemCache.Count >= 500)
+            {
+                return;
+            }
+
+            await CreateEvents(path);
+
+            RequestSemaphore.Release();
+        }
+
+
+        private async Task CreateEvents(string path)
         {
             JsonDocument doc = await ReadData(path);
 
-            if (doc == null) return;
+            if (doc == null)
+            {
+                return;
+            }
 
             Events.Clear();
             leaderboard.ClearDictionaries();
@@ -50,7 +73,7 @@ namespace WebApp.Repositories
                 string locationName = Element.GetProperty("location").GetProperty("name").ToString();
                 EventType eventType = GetEventType(Element.GetProperty("type").ToString());
 
-                Events.Add(new PoliceEvent
+                PoliceEvent Event = new PoliceEvent
                 {
                     Id = Element.GetProperty("id").ToString(),
                     Date = DateConverter(Element.GetProperty("datetime").ToString()),
@@ -67,8 +90,15 @@ namespace WebApp.Repositories
                             Longitude = gps[1]
                         }
                     }
-                });
+                };
 
+                Events.Add(Event);
+
+                using (var entry = MemCache.CreateEntry(Event.Id))
+                {
+                    entry.Value = Event;
+                    entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
+                }
                 leaderboard.AddCountEvent(eventType);
                 leaderboard.AddCountEventLocation(locationName);
             }
