@@ -100,7 +100,7 @@ namespace WebAppTest
         [Test]
         public async Task CreatePoliceEventsTest()
         {
-            await _Repository.CreateEvents(UrlPath);
+            await _Repository.CreatePoliceEvents(UrlPath);
 
             Console.WriteLine(_Repository.GetNumberOfPoliceEvents());
 

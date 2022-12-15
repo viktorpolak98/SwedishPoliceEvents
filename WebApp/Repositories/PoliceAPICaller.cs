@@ -11,25 +11,17 @@ namespace WebApp.Repositories
     public class PoliceAPICaller : IReadData<JsonDocument>
     {
         private readonly HttpClient Client;
-        private readonly SemaphoreSlim RequestSemaphore;
-        private readonly MemoryCache MemCache;
 
         public PoliceAPICaller()
         {
             Client = new HttpClient();
-            RequestSemaphore = new SemaphoreSlim(1,1);
-            MemCache = new MemoryCache(new MemoryCacheOptions());
         }
 
         public async Task<JsonDocument> ReadData(string path)
         {
 
-            if (MemCache.TryGetValue("data", out JsonDocument doc))
-            {
-                return doc;
-            }
+            JsonDocument doc = null;
 
-            RequestSemaphore.Wait();
             int tries = 0;
 
             while (tries < 3)
@@ -48,14 +40,7 @@ namespace WebApp.Repositories
                 {
                     Console.WriteLine(Ex.Message);
                 }
-                finally { RequestSemaphore.Release(); }
 
-            }
-
-            using (var entry = MemCache.CreateEntry("data"))
-            {
-                entry.Value = doc;
-                entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
             }
 
             return doc;
