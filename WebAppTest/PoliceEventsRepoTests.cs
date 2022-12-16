@@ -23,10 +23,10 @@ namespace WebAppTest
         [Test]
         public async Task ReadDataTest()
         {
-            JsonDocument doc = await _Repository.ReadData("https://polisen.se/api/events"); 
+            JsonDocument doc = await _Repository.ReadData("https://polisen.se/api/events");
             Assert.NotNull(doc);
 
-            foreach(var Element in doc.RootElement.EnumerateArray())
+            foreach (var Element in doc.RootElement.EnumerateArray())
             {
                 Console.WriteLine($"{Element}");
             }
@@ -68,7 +68,7 @@ namespace WebAppTest
 
             Console.WriteLine(Element.ToString());
 
-            
+
             string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
 
 
@@ -93,7 +93,7 @@ namespace WebAppTest
 
             Console.WriteLine(policeEvent.ToString());
 
-            Assert.NotNull(policeEvent); 
+            Assert.NotNull(policeEvent);
             Assert.Pass();
         }
 

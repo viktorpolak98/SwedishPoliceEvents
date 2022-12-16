@@ -108,7 +108,7 @@ namespace WebAppTest
             Assert.AreEqual(10, list.Count);
 
 
-            foreach(PoliceEvent pEvent in list)
+            foreach (PoliceEvent pEvent in list)
             {
                 Assert.AreEqual(pEvent.Location.Name, locationName);
             }
@@ -135,7 +135,7 @@ namespace WebAppTest
             Assert.AreEqual(22, eventsOfSpecificType.Count);
 
 
-            foreach(PoliceEvent e in eventsOfSpecificType)
+            foreach (PoliceEvent e in eventsOfSpecificType)
             {
                 Assert.AreEqual(e.Type, EventType.Rattfylleri);
             }
@@ -153,7 +153,7 @@ namespace WebAppTest
             Assert.NotNull(list);
             Assert.AreEqual(6, list.Count);
 
-            foreach(PoliceEvent e in list)
+            foreach (PoliceEvent e in list)
             {
                 Assert.AreEqual(e.Type, EventType.Fylleri_LOB);
             }

@@ -41,10 +41,18 @@ namespace WebApp.Repositories
         public async Task CreatePoliceEvents(string path)
         {
 
+
+            if (MemCache.Count == 500)
+            {
+                return;
+            }
+
             RequestSemaphore.Wait();
 
-            if (MemCache.Count >= 500)
+            //Recheck if another thread has done the API call
+            if (MemCache.Count == 500)
             {
+                RequestSemaphore.Release();
                 return;
             }
 
@@ -53,6 +61,17 @@ namespace WebApp.Repositories
             RequestSemaphore.Release();
         }
 
+        private void BeforeCreateEvents()
+        {
+            Events.Clear();
+            leaderboard.ClearDictionaries();
+
+        }
+
+        private void AfterCreateEvents()
+        {
+            leaderboard.SortDictionariesDescending();
+        }
 
         private async Task CreateEvents(string path)
         {
@@ -62,9 +81,7 @@ namespace WebApp.Repositories
             {
                 return;
             }
-
-            Events.Clear();
-            leaderboard.ClearDictionaries();
+            BeforeCreateEvents();
 
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
@@ -103,6 +120,7 @@ namespace WebApp.Repositories
                 leaderboard.AddCountEventLocation(locationName);
             }
 
+            AfterCreateEvents();
 
             doc.Dispose();
 
