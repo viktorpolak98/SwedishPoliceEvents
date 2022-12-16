@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WebApp.Repositories;
 using WebApp.Models;
+using WebApp.HelperFunctions;
 
 namespace WebApp.Logic
 {
@@ -24,24 +25,18 @@ namespace WebApp.Logic
 
         public void AddCountEvent(EventType eventType)
         {
-            int count = 1;
-            if (NumberOfEventsDict.ContainsKey(eventType))
-            {
-                count += NumberOfEventsDict[eventType];
-            }
-
-            NumberOfEventsDict[eventType] = count;
+            DictionaryHelper.UpdateIntValue(NumberOfEventsDict, eventType);
         }
 
         public void AddCountEventLocation(string location)
         {
-            int count = 1;
-            if (NumberOfEventsLocationDict.ContainsKey(location))
-            {
-                count += NumberOfEventsLocationDict[location];
-            }
+            DictionaryHelper.UpdateIntValue(NumberOfEventsLocationDict, location);
+        }
 
-            NumberOfEventsLocationDict[location] = count;
+        public void SortDictionariesDescending()
+        {
+            NumberOfEventsDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfEventsDict);
+            NumberOfEventsLocationDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfEventsLocationDict);
         }
 
 
