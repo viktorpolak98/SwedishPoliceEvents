@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApp.Models
+namespace WebApp.Models.PoliceStation
 {
+    /// <summary>
+    /// Enum for different types of services possibly available at a police station
+    /// </summary>
     public enum ServiceType
     {
         [Display(Name = "Anmälan")]

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApp.Models;
+using WebApp.Models.PoliceEvent;
+using WebApp.Models.Shared;
 using System.Text.Json;
 using WebApp.HelperFunctions;
 using System.Globalization;
@@ -12,6 +13,9 @@ using System.Threading;
 
 namespace WebApp.Repositories
 {
+    /// <summary>
+    /// Repository used to store data regarding PoliceEvents. Inherits PoliceAPICaller class.
+    /// </summary>
     public class PoliceEventsRepository : PoliceAPICaller
     {
         private readonly List<PoliceEvent> Events = new List<PoliceEvent>();
@@ -38,10 +42,16 @@ namespace WebApp.Repositories
             leaderboard = new Leaderboard();
         }
 
+        /// <summary>
+        /// Creates PoliceEvents with API call from PoliceAPICaller class
+        /// Utilizes caching to limit the amount of api calls. Uses a Semaphore to limit 1 thread to call API at a time
+        /// </summary>
+        /// <param name="path">Path to api to call</param>
+        /// <returns></returns>
         public async Task CreatePoliceEvents(string path)
         {
 
-
+            //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
             if (MemCache.Count == 500)
             {
                 return;
@@ -61,6 +71,9 @@ namespace WebApp.Repositories
             RequestSemaphore.Release();
         }
 
+        /// <summary>
+        /// Clears dictionaries and list of events before new ones are created
+        /// </summary>
         private void BeforeCreateEvents()
         {
             Events.Clear();
@@ -68,11 +81,19 @@ namespace WebApp.Repositories
 
         }
 
+        /// <summary>
+        /// Sorts leaderboard dictionaries after events are created
+        /// </summary>
         private void AfterCreateEvents()
         {
             leaderboard.SortDictionaries(true);
         }
 
+        /// <summary>
+        /// Creates events from a jsondocument and populates the cache with created events. Exists in the cache for 10 minutes
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private async Task CreateEvents(string path)
         {
             JsonDocument doc = await ReadData(path);
@@ -126,28 +147,56 @@ namespace WebApp.Repositories
 
         }
 
+        /// <summary>
+        /// Gets all PoliceEvents from specified latitude and longitude
+        /// </summary>
+        /// <param name="lat">Latitude</param>
+        /// <param name="lon">Longitude</param>
+        /// <returns></returns>
         public List<PoliceEvent> GetPoliceEventsFromLatLon(string lat, string lon)
         {
             return Events.Where(E => E.Location.GpsLocation.Latitude.Equals(lat)
                                     && E.Location.GpsLocation.Longitude.Equals(lon)).ToList();
         }
 
+        /// <summary>
+        /// Gets aall PoliceEvents from specified location name
+        /// </summary>
+        /// <param name="locationName">Name of location</param>
+        /// <returns></returns>
         public List<PoliceEvent> GetPoliceEventsFromLocationName(string locationName)
         {
 
             return Events.Where(E => E.Location.Name == locationName).ToList();
         }
 
+        /// <summary>
+        /// Returns a specific PoliceEvent with the specified id
+        /// If id does not exist, null is returned 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public PoliceEvent GetPoliceEventFromId(string id)
         {
             return Events.Where(E => E.Id == id).SingleOrDefault();
         }
 
+        /// <summary>
+        /// Returns all PoliceEvents from a specific EventType
+        /// </summary>
+        /// <param name="type">EventType to return</param>
+        /// <returns></returns>
         public List<PoliceEvent> GetPoliceEventsFromType(EventType type)
         {
             return Events.Where(E => E.Type == type).ToList();
         }
 
+
+        /// <summary>
+        /// Returns all PoliceEvents from a specific EventType display name
+        /// </summary>
+        /// <param name="displayName">Display name to return</param>
+        /// <returns></returns>
         public List<PoliceEvent> GetPoliceEventsFromTypeDisplayName(string displayName)
         {
             if (!EventTypeDict.ContainsKey(displayName))
@@ -158,6 +207,11 @@ namespace WebApp.Repositories
             return Events.Where(E => E.Type == EventTypeDict[displayName]).ToList();
         }
 
+        /// <summary>
+        /// Converts the date returned from api to a DateTime. Uses local culture
+        /// </summary>
+        /// <param name="date">Date to convert as string</param>
+        /// <returns></returns>
         public DateTime DateConverter(string date)
         {
             DateTime.TryParseExact(date, "yyyy-MM-dd H:mm:ss zzz", CultureInfo.InvariantCulture,
@@ -166,6 +220,11 @@ namespace WebApp.Repositories
             return dateTime;
         }
 
+        /// <summary>
+        /// Returns an EventType with display name as key
+        /// </summary>
+        /// <param name="key">Display name key</param>
+        /// <returns></returns>
         public EventType GetEventType(string key)
         {
             EventTypeDict.TryGetValue(key, out EventType eventType);
@@ -173,11 +232,19 @@ namespace WebApp.Repositories
             return eventType;
         }
 
+        /// <summary>
+        /// Gets the amount of PoliceEvents in events list
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberOfPoliceEvents()
         {
             return Events.Count;
         }
 
+        /// <summary>
+        /// Returns the PoliceEvents list
+        /// </summary>
+        /// <returns></returns>
         public List<PoliceEvent> GetAllEvents()
         {
             return Events;

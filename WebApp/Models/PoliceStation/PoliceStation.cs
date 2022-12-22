@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using WebApp.Models.Shared;
 
-namespace WebApp.Models
+namespace WebApp.Models.PoliceStation
 {
+    /// <summary>
+    /// Model class for a police event
+    /// </summary>
     public class PoliceStation
     {
         public string Id { get; set; }

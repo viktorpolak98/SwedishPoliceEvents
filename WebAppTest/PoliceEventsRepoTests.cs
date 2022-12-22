@@ -3,7 +3,8 @@ using WebApp.Repositories;
 using System.Text.Json;
 using System;
 using System.Threading.Tasks;
-using WebApp.Models;
+using WebApp.Models.PoliceEvent;
+using WebApp.Models.Shared;
 
 namespace WebAppTest
 {

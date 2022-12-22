@@ -1,7 +1,11 @@
 ﻿using System;
+using WebApp.Models.Shared;
 
-namespace WebApp.Models
+namespace WebApp.Models.PoliceEvent
 {
+    /// <summary>
+    /// Model class from a police event
+    /// </summary>
     public class PoliceEvent
     {
         public string Id { get; set; }

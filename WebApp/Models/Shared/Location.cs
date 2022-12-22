@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebApp.Models
+﻿
+namespace WebApp.Models.Shared
 {
+    /// <summary>
+    /// Model class for location used by both PoliceEvent and PoliceStation
+    /// </summary>
     public class Location
     {
         public string Name { get; set; }

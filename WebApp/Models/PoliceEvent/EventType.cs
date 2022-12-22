@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApp.Models
+namespace WebApp.Models.PoliceEvent
 {
+    /// <summary>
+    /// Enum with different types of events 
+    /// </summary>
     public enum EventType
     {
         [Display(Name = "Alkogollagen")]
