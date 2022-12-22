@@ -33,7 +33,24 @@ namespace WebApp.Logic
             DictionaryHelper.UpdateIntValue(NumberOfEventsLocationDict, location);
         }
 
-        public void SortDictionariesDescending()
+        public void SortDictionaries(bool Descending)
+        {
+            if (Descending)
+            {
+                SortDictionariesDescending();
+                return;
+            } 
+
+            SortDictionariesAscending();
+        }
+
+        private void SortDictionariesAscending()
+        {
+            NumberOfEventsDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(NumberOfEventsDict);
+            NumberOfEventsLocationDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(NumberOfEventsLocationDict);
+        }
+
+        private void SortDictionariesDescending()
         {
             NumberOfEventsDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfEventsDict);
             NumberOfEventsLocationDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfEventsLocationDict);

@@ -70,7 +70,7 @@ namespace WebApp.Repositories
 
         private void AfterCreateEvents()
         {
-            leaderboard.SortDictionariesDescending();
+            leaderboard.SortDictionaries(true);
         }
 
         private async Task CreateEvents(string path)
