@@ -40,6 +40,7 @@ namespace WebApp.Repositories
                 {
                     Console.WriteLine(Ex.Message);
                 }
+                Thread.Sleep(500);
 
             }
 
