@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using WebApp.HelperFunctions;
-using WebApp.Models;
+using WebApp.Models.PoliceEvent;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;

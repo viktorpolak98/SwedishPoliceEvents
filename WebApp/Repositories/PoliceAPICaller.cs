@@ -3,11 +3,13 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using WebApp.Services;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 
 namespace WebApp.Repositories
 {
+    /// <summary>
+    /// Class used to call swedish police api for open data found at https://polisen.se/om-polisen/om-webbplatsen/oppna-data/
+    /// </summary>
     public class PoliceAPICaller : IReadData<JsonDocument>
     {
         private readonly HttpClient Client;
@@ -17,6 +19,12 @@ namespace WebApp.Repositories
             Client = new HttpClient();
         }
 
+        /// <summary>
+        /// Async api call to read data.
+        /// Tries to call an api a maximum of 3 times with 500ms between each call. Does not continue calling api after a successful call.
+        /// </summary>
+        /// <param name="path">Path to api to call</param>
+        /// <returns></returns>
         public async Task<JsonDocument> ReadData(string path)
         {
 

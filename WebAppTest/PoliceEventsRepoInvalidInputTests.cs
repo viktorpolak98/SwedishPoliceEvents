@@ -2,8 +2,8 @@
 using WebApp.Repositories;
 using System.Text.Json;
 using System;
-using System.Threading.Tasks;
-using WebApp.Models;
+using WebApp.Models.PoliceEvent;
+using WebApp.Models.Shared;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
