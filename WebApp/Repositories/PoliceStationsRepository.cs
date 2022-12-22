@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using WebApp.Models.PoliceStation;
 using WebApp.Models.Shared;
@@ -8,7 +7,6 @@ using WebApp.HelperFunctions;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 
 namespace WebApp.Repositories
 {

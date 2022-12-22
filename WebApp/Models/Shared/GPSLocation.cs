@@ -1,5 +1,4 @@
-﻿
-namespace WebApp.Models.Shared
+﻿namespace WebApp.Models.Shared
 {
     /// <summary>
     /// Model class for GPS location used by both PoliceEvent and PoliceStation
