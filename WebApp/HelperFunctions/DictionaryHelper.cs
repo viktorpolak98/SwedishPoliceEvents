@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using WebApp.Models;
 
 namespace WebApp.HelperFunctions
 {

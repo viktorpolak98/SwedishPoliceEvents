@@ -1,5 +1,4 @@
-﻿
-namespace WebApp.Models.Shared
+﻿namespace WebApp.Models.Shared
 {
     /// <summary>
     /// Model class for location used by both PoliceEvent and PoliceStation
