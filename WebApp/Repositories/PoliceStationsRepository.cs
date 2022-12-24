@@ -7,6 +7,8 @@ using WebApp.HelperFunctions;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace WebApp.Repositories
 {
@@ -86,7 +88,7 @@ namespace WebApp.Repositories
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
 
 
-                Stations.Add(new PoliceStation
+                PoliceStation station = new PoliceStation
                 {
                     Id = Element.GetProperty("id").ToString(),
                     Name = Element.GetProperty("name").ToString(),
@@ -101,7 +103,13 @@ namespace WebApp.Repositories
                         }
                     },
                     Services = serviceTypes
-                });
+                };
+
+                Stations.Add(station);
+
+                using var entry = MemCache.CreateEntry(station.Id);
+                entry.Value = station;
+                entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
             }
 
 
