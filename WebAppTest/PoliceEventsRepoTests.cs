@@ -41,7 +41,7 @@ namespace WebAppTest
         public void TestGetEventType()
         {
             string displayName = "Kontroll person/fordon";
-            EventType type = _Repository.GetEventType(displayName);
+            EventType type = _Repository.GetType(displayName);
 
             Assert.AreEqual(type, EventType.Kontroll_person_fordon);
 
@@ -80,7 +80,7 @@ namespace WebAppTest
                 Name = Element.GetProperty("name").ToString(),
                 Summary = Element.GetProperty("summary").ToString(),
                 Url = Element.GetProperty("url").ToString(),
-                Type = _Repository.GetEventType(Element.GetProperty("type").ToString()),
+                Type = _Repository.GetType(Element.GetProperty("type").ToString()),
                 Location = new Location
                 {
                     Name = Element.GetProperty("location").GetProperty("name").ToString(),
@@ -101,11 +101,11 @@ namespace WebAppTest
         [Test]
         public async Task CreatePoliceEventsTest()
         {
-            await _Repository.CreatePoliceEvents(UrlPath);
+            await _Repository.CreateValues(UrlPath);
 
-            Console.WriteLine(_Repository.GetNumberOfPoliceEvents());
+            Console.WriteLine(_Repository.GetCount());
 
-            Assert.AreEqual(500, _Repository.GetNumberOfPoliceEvents());
+            Assert.AreEqual(500, _Repository.GetCount());
             Assert.Pass();
 
         }

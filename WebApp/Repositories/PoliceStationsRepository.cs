@@ -14,7 +14,7 @@ namespace WebApp.Repositories
     /// Repository used to store data regarding PoliceStations. Inherits PoliceAPICaller class.
     /// WORK IN PROGRESS
     /// </summary>
-    public class PoliceStationsRepository : PoliceAPICaller
+    public class PoliceStationsRepository : PoliceAPICaller, IRepository<PoliceStation, ServiceType>
     {
         private readonly List<PoliceStation> Stations = new List<PoliceStation>();
         private readonly Dictionary<string, ServiceType> ServiceTypeDict;
@@ -42,7 +42,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path">Path to api to call</param>
         /// <returns></returns>
-        public async Task CreatePoliceStations(string path)
+        public async Task CreateValues(string path)
         {
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
             if (MemCache.Count == 500)
@@ -80,7 +80,7 @@ namespace WebApp.Repositories
                 List<ServiceType> serviceTypes = new List<ServiceType>();
                 foreach(JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
-                    serviceTypes.Add(GetServiceType(service.GetProperty("name").ToString()));
+                    serviceTypes.Add(GetType(service.GetProperty("name").ToString()));
                 }
                 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
@@ -115,7 +115,7 @@ namespace WebApp.Repositories
         /// <param name="lat">latitude</param>
         /// <param name="lon">longitude</param>
         /// <returns></returns>
-        public List<PoliceStation> GetPoliceStationFromLatLon(string lat, string lon)
+        public List<PoliceStation> GetAllByLatLon(string lat, string lon)
         {
             return Stations.Where(E => E.Location.GpsLocation.Latitude.Equals(lat)
                                     && E.Location.GpsLocation.Longitude.Equals(lon)).ToList();
@@ -126,7 +126,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="locationName">Location name</param>
         /// <returns></returns>
-        public List<PoliceStation> GetPoliceStationFromLocationName(string locationName)
+        public List<PoliceStation> GetAllByLocationName(string locationName)
         {
 
             return Stations.Where(E => E.Location.Name == locationName).ToList();
@@ -137,7 +137,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="id">Id for PoliceStation</param>
         /// <returns></returns>
-        public PoliceStation GetPoliceStationFromId(string id)
+        public PoliceStation GetById(string id)
         {
             return Stations.Where(E => E.Id == id).SingleOrDefault();
         }
@@ -147,7 +147,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="type">Specific service</param>
         /// <returns></returns>
-        public List<PoliceStation> GetServicesFromType(ServiceType type)
+        public List<PoliceStation> GetAllByType(ServiceType type)
         {
             return Stations.Where(E => E.Services.Contains(type)).ToList();
         }
@@ -157,7 +157,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="displayName">Service as display name</param>
         /// <returns></returns>
-        public List<PoliceStation> GetServicesFromTypeDisplayName(string displayName)
+        public List<PoliceStation> GetAllByDisplayName(string displayName)
         {
             if (!ServiceTypeDict.ContainsKey(displayName))
             {
@@ -172,7 +172,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="key">Key to ServiceType</param>
         /// <returns></returns>
-        public ServiceType GetServiceType(string key)
+        public ServiceType GetType(string key)
         {
             ServiceTypeDict.TryGetValue(key, out ServiceType serviceType);
 
@@ -183,7 +183,7 @@ namespace WebApp.Repositories
         /// Returns the amount of PoliceStations
         /// </summary>
         /// <returns></returns>
-        public int GetNumberOfPoliceStations()
+        public int GetCount()
         {
             return Stations.Count;
         }
@@ -192,7 +192,7 @@ namespace WebApp.Repositories
         /// Returns the PoliceStations list
         /// </summary>
         /// <returns></returns>
-        public List<PoliceStation> GetAllStations()
+        public List<PoliceStation> GetAll()
         {
             return Stations;
         }
