@@ -16,7 +16,7 @@ namespace WebApp.Repositories
     /// <summary>
     /// Repository used to store data regarding PoliceEvents. Inherits PoliceAPICaller class.
     /// </summary>
-    public class PoliceEventsRepository : PoliceAPICaller
+    public class PoliceEventsRepository : PoliceAPICaller, IRepository<PoliceEvent, EventType>
     {
         private readonly List<PoliceEvent> Events = new List<PoliceEvent>();
         private readonly Dictionary<string, EventType> EventTypeDict;
@@ -48,7 +48,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path">Path to api to call</param>
         /// <returns></returns>
-        public async Task CreatePoliceEvents(string path)
+        public async Task CreateValues(string path)
         {
 
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
@@ -109,7 +109,7 @@ namespace WebApp.Repositories
 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
                 string locationName = Element.GetProperty("location").GetProperty("name").ToString();
-                EventType eventType = GetEventType(Element.GetProperty("type").ToString());
+                EventType eventType = GetType(Element.GetProperty("type").ToString());
 
                 PoliceEvent Event = new PoliceEvent
                 {
@@ -153,7 +153,7 @@ namespace WebApp.Repositories
         /// <param name="lat">Latitude</param>
         /// <param name="lon">Longitude</param>
         /// <returns></returns>
-        public List<PoliceEvent> GetPoliceEventsFromLatLon(string lat, string lon)
+        public List<PoliceEvent> GetAllByLatLon(string lat, string lon)
         {
             return Events.Where(E => E.Location.GpsLocation.Latitude.Equals(lat)
                                     && E.Location.GpsLocation.Longitude.Equals(lon)).ToList();
@@ -164,7 +164,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="locationName">Name of location</param>
         /// <returns></returns>
-        public List<PoliceEvent> GetPoliceEventsFromLocationName(string locationName)
+        public List<PoliceEvent> GetAllByLocationName(string locationName)
         {
 
             return Events.Where(E => E.Location.Name == locationName).ToList();
@@ -176,7 +176,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public PoliceEvent GetPoliceEventFromId(string id)
+        public PoliceEvent GetById(string id)
         {
             return Events.Where(E => E.Id == id).SingleOrDefault();
         }
@@ -186,7 +186,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="type">EventType to return</param>
         /// <returns></returns>
-        public List<PoliceEvent> GetPoliceEventsFromType(EventType type)
+        public List<PoliceEvent> GetAllByType(EventType type)
         {
             return Events.Where(E => E.Type == type).ToList();
         }
@@ -197,7 +197,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="displayName">Display name to return</param>
         /// <returns></returns>
-        public List<PoliceEvent> GetPoliceEventsFromTypeDisplayName(string displayName)
+        public List<PoliceEvent> GetAllByDisplayName(string displayName)
         {
             if (!EventTypeDict.ContainsKey(displayName))
             {
@@ -225,7 +225,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="key">Display name key</param>
         /// <returns></returns>
-        public EventType GetEventType(string key)
+        public EventType GetType(string key)
         {
             EventTypeDict.TryGetValue(key, out EventType eventType);
 
@@ -236,7 +236,7 @@ namespace WebApp.Repositories
         /// Gets the amount of PoliceEvents in events list
         /// </summary>
         /// <returns></returns>
-        public int GetNumberOfPoliceEvents()
+        public int GetCount()
         {
             return Events.Count;
         }
@@ -245,9 +245,10 @@ namespace WebApp.Repositories
         /// Returns the PoliceEvents list
         /// </summary>
         /// <returns></returns>
-        public List<PoliceEvent> GetAllEvents()
+        public List<PoliceEvent> GetAll()
         {
             return Events;
         }
+
     }
 }

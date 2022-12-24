@@ -83,7 +83,7 @@ namespace WebAppTest
             string lat = "63.825847";
             string lon = "20.263035";
 
-            List<PoliceEvent> list = _Repository.GetPoliceEventsFromLatLon(lat, lon);
+            List<PoliceEvent> list = _Repository.GetAllByLatLon(lat, lon);
 
             Assert.NotNull(list);
             Assert.AreEqual(12, list.Count);
@@ -102,7 +102,7 @@ namespace WebAppTest
         {
             string locationName = "Malmö";
 
-            List<PoliceEvent> list = _Repository.GetPoliceEventsFromLocationName(locationName);
+            List<PoliceEvent> list = _Repository.GetAllByLocationName(locationName);
 
             Assert.NotNull(list);
             Assert.AreEqual(10, list.Count);
@@ -120,7 +120,7 @@ namespace WebAppTest
         public void TestGetPoliceEventFromId()
         {
 
-            PoliceEvent policeEvent = _Repository.GetPoliceEventFromId("385732");
+            PoliceEvent policeEvent = _Repository.GetById("385732");
 
             Assert.NotNull(policeEvent);
             Assert.AreEqual("385732", policeEvent.Id);
@@ -129,7 +129,7 @@ namespace WebAppTest
         [Test]
         public void TestGetPoliceEventsFromType()
         {
-            List<PoliceEvent> eventsOfSpecificType = _Repository.GetPoliceEventsFromType(EventType.Rattfylleri);
+            List<PoliceEvent> eventsOfSpecificType = _Repository.GetAllByType(EventType.Rattfylleri);
 
             Assert.NotNull(eventsOfSpecificType);
             Assert.AreEqual(22, eventsOfSpecificType.Count);
@@ -148,7 +148,7 @@ namespace WebAppTest
         public void TestGetPoliceEventsFromTypeDisplayName()
         {
             string displayName = "Fylleri/LOB";
-            List<PoliceEvent> list = _Repository.GetPoliceEventsFromTypeDisplayName(displayName);
+            List<PoliceEvent> list = _Repository.GetAllByDisplayName(displayName);
 
             Assert.NotNull(list);
             Assert.AreEqual(6, list.Count);
