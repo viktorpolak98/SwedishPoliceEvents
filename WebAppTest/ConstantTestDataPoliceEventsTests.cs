@@ -11,7 +11,7 @@ using WebApp.HelperFunctions;
 
 namespace WebAppTest
 {
-    class StaticTestDataPoliceEventsTests
+    class ConstantTestDataPoliceEventsTests
     {
         private readonly List<PoliceEvent> PoliceEvents = new List<PoliceEvent>();
         private JsonDocument doc;

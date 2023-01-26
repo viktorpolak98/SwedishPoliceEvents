@@ -66,7 +66,6 @@ namespace WebApp.Repositories
             RequestSemaphore.Release();
         }
 
-        //TODO: Implement caching logic
         public async Task CreateStations(string path)
         {
             JsonDocument doc = await ReadData(path);
@@ -92,7 +91,7 @@ namespace WebApp.Repositories
                 {
                     Id = Element.GetProperty("id").ToString(),
                     Name = Element.GetProperty("name").ToString(),
-                    Url = Element.GetProperty("url").ToString(),
+                    Url = Element.GetProperty("Url").ToString(),
                     Location = new Location
                     {
                         Name = Element.GetProperty("location").GetProperty("name").ToString(),
@@ -109,7 +108,7 @@ namespace WebApp.Repositories
 
                 using var entry = MemCache.CreateEntry(station.Id);
                 entry.Value = station;
-                entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
+                entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(1);
             }
 
 

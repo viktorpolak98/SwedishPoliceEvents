@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
+using System.Threading;
 
 namespace WebAppTest
 {
@@ -19,6 +20,18 @@ namespace WebAppTest
             _Repository = new PoliceEventsRepository();
 
         }
+
+        /*
+        [Test]
+        public void MultiThreadAccessTest()
+        {
+            Task.Run(() => _Repository.CreateValues(UrlPath));
+            Task.Run(() => _Repository.CreateValues(UrlPath));
+            Console.WriteLine(_Repository.CachedItems());
+
+            Assert.AreEqual(500, _Repository.CachedItems());
+        }
+        */
 
 
         [Test]
@@ -109,5 +122,7 @@ namespace WebAppTest
             Assert.Pass();
 
         }
+
+
     }
 }
