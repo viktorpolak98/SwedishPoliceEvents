@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebApp.Logic;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApp.Repositories
 {
@@ -52,7 +53,7 @@ namespace WebApp.Repositories
         {
 
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
-            if (MemCache.Count == 500)
+            if (CachedItems() == 500)
             {
                 return;
             }
@@ -60,7 +61,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (MemCache.Count == 500)
+            if (CachedItems() == 500)
             {
                 RequestSemaphore.Release();
                 return;
@@ -132,9 +133,11 @@ namespace WebApp.Repositories
 
                 Events.Add(Event);
 
-                using var entry = MemCache.CreateEntry(Event.Id);
-                entry.Value = Event;
-                entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
+                using (var entry = MemCache.CreateEntry(Event.Id))
+                {
+                    entry.Value = Event;
+                    entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
+                }
 
                 leaderboard.AddCountEvent(eventType);
                 leaderboard.AddCountEventLocation(locationName);
@@ -247,6 +250,16 @@ namespace WebApp.Repositories
         public List<PoliceEvent> GetAll()
         {
             return Events;
+        }
+
+        /// <summary>
+        /// Returns amount of cached events
+        /// Used for testing if several threads access CreateValues() simultaneously
+        /// </summary>
+        /// <returns></returns>
+        public int CachedItems()
+        {
+            return MemCache.Count;
         }
 
     }

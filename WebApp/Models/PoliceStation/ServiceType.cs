@@ -32,6 +32,9 @@ namespace WebApp.Models.PoliceStation
         Provisoriskt_pass,
 
         [Display(Name = "Beslag")]
-        Beslag
+        Beslag,
+
+        [Display(Name = "Pass/nationellt id-kort")]
+        Pass_nationellt_id_kort
     }
 }
