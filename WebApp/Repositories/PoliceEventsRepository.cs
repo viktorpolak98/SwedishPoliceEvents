@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using WebApp.Logic;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApp.Repositories
 {
@@ -23,6 +22,7 @@ namespace WebApp.Repositories
         private readonly Dictionary<string, EventType> EventTypeDict;
         private readonly Leaderboard leaderboard;
         private readonly MemoryCache MemCache = new MemoryCache(new MemoryCacheOptions());
+
         private readonly SemaphoreSlim RequestSemaphore = new SemaphoreSlim(1,1);
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace WebApp.Repositories
         {
 
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
-            if (CachedItems() == 500)
+            if (AmountOfCachedItems() == 500)
             {
                 return;
             }
@@ -61,7 +61,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (CachedItems() == 500)
+            if (AmountOfCachedItems() == 500)
             {
                 RequestSemaphore.Release();
                 return;
@@ -132,6 +132,7 @@ namespace WebApp.Repositories
                 };
 
                 Events.Add(Event);
+
 
                 using (var entry = MemCache.CreateEntry(Event.Id))
                 {
@@ -257,9 +258,24 @@ namespace WebApp.Repositories
         /// Used for testing if several threads access CreateValues() simultaneously
         /// </summary>
         /// <returns></returns>
-        public int CachedItems()
+        public int AmountOfCachedItems()
         {
             return MemCache.Count;
+        }
+
+        /// <summary>
+        /// Validates that the current Events exists in MemCache
+        /// </summary>
+        /// <returns></returns>
+        public List<PoliceEvent> ValidateEntries()
+        {
+            List<PoliceEvent> listEvents = new List<PoliceEvent>();
+            foreach(var val in Events)
+            {
+                MemCache.TryGetValue(val.Id, out PoliceEvent pEvent);
+                listEvents.Add(pEvent);
+            }
+            return listEvents;
         }
 
     }

@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
+using WebApp.Models.PoliceEvent;
 
 namespace WebApp.Repositories
 {
@@ -109,6 +110,7 @@ namespace WebApp.Repositories
                 using var entry = MemCache.CreateEntry(station.Id);
                 entry.Value = station;
                 entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(1);
+
             }
 
 
@@ -202,6 +204,31 @@ namespace WebApp.Repositories
         public List<PoliceStation> GetAll()
         {
             return Stations;
+        }
+
+        /// <summary>
+        /// Returns amount of cached events
+        /// Used for testing if several threads access CreateValues() simultaneously
+        /// </summary>
+        /// <returns></returns>
+        public int AmountOfCachedItems()
+        {
+            return MemCache.Count;
+        }
+
+        /// <summary>
+        /// Validates that the current stations exists in MemCache
+        /// </summary>
+        /// <returns></returns>
+        public List<PoliceStation> ValidateEntries()
+        {
+            List<PoliceStation> listStations = new List<PoliceStation>();
+            foreach (var val in Stations)
+            {
+                MemCache.TryGetValue(val.Id, out PoliceStation pStation);
+                listStations.Add(pStation);
+            }
+            return listStations;
         }
     }
 }

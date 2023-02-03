@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace WebAppTest
 {
@@ -21,17 +22,31 @@ namespace WebAppTest
 
         }
 
-        /*
+        //Should be ran by itself to ensure that MemCache is empty when executing test
         [Test]
-        public void MultiThreadAccessTest()
+        public async Task MultiThreadCreateValuesTest()
         {
             Task.Run(() => _Repository.CreateValues(UrlPath));
-            Task.Run(() => _Repository.CreateValues(UrlPath));
-            Console.WriteLine(_Repository.CachedItems());
+            await Task.Run(() => _Repository.CreateValues(UrlPath));
 
-            Assert.AreEqual(500, _Repository.CachedItems());
+            Assert.AreEqual(500, _Repository.AmountOfCachedItems());
         }
-        */
+        
+        
+        [Test]
+        public async Task ValidateCachedItemsTest()
+        {
+            await _Repository.CreateValues(UrlPath);
+            List<PoliceEvent> validateEventsList = _Repository.ValidateEntries();
+            Console.WriteLine(_Repository.AmountOfCachedItems());
+            foreach(var val in validateEventsList)
+            {
+                Assert.IsNotNull(val);
+                Console.WriteLine(val);
+            }
+            Assert.Pass();
+        }
+        
 
 
         [Test]
