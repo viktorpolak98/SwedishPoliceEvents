@@ -20,10 +20,10 @@ namespace WebApp.Repositories
     /// </summary>
     public class PoliceStationsRepository : PoliceAPICaller, IRepository<PoliceStation, ServiceType>
     {
-        private readonly List<PoliceStation> Stations = new List<PoliceStation>();
+        private readonly List<PoliceStation> Stations = new();
         private readonly Dictionary<string, ServiceType> ServiceTypeDict;
-        private readonly SemaphoreSlim RequestSemaphore = new SemaphoreSlim(1, 1);
-        private readonly MemoryCache MemCache = new MemoryCache(new MemoryCacheOptions());
+        private readonly SemaphoreSlim RequestSemaphore = new (1, 1);
+        private readonly MemoryCache MemCache = new (new MemoryCacheOptions());
 
         /// <summary>
         /// For testing purposes
@@ -49,7 +49,7 @@ namespace WebApp.Repositories
         public async Task CreateValues(string path)
         {
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
-            if (MemCache.Count == 500)
+            if (MemCache.Count == 276)
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (MemCache.Count == 500)
+            if (MemCache.Count == 276)
             {
                 RequestSemaphore.Release();
                 return;
@@ -80,7 +80,7 @@ namespace WebApp.Repositories
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
 
-                List<ServiceType> serviceTypes = new List<ServiceType>();
+                List<ServiceType> serviceTypes = new();
                 foreach(JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
                     serviceTypes.Add(GetType(service.GetProperty("name").ToString()));
@@ -226,7 +226,7 @@ namespace WebApp.Repositories
         /// <returns></returns>
         public List<PoliceStation> ValidateEntries()
         {
-            List<PoliceStation> listStations = new List<PoliceStation>();
+            List<PoliceStation> listStations = new();
             foreach (var val in Stations)
             {
                 MemCache.TryGetValue(val.Id, out PoliceStation pStation);

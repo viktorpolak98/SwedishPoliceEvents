@@ -18,12 +18,12 @@ namespace WebApp.Repositories
     /// </summary>
     public class PoliceEventsRepository : PoliceAPICaller, IRepository<PoliceEvent, EventType>
     {
-        private readonly List<PoliceEvent> Events = new List<PoliceEvent>();
+        private readonly List<PoliceEvent> Events = new();
         private readonly Dictionary<string, EventType> EventTypeDict;
         private readonly Leaderboard leaderboard;
-        private readonly MemoryCache MemCache = new MemoryCache(new MemoryCacheOptions());
+        private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
 
-        private readonly SemaphoreSlim RequestSemaphore = new SemaphoreSlim(1,1);
+        private readonly SemaphoreSlim RequestSemaphore = new(1,1);
 
         /// <summary>
         /// For testing purposes
@@ -276,7 +276,7 @@ namespace WebApp.Repositories
         /// <returns></returns>
         public List<PoliceEvent> ValidateEntries()
         {
-            List<PoliceEvent> listEvents = new List<PoliceEvent>();
+            List<PoliceEvent> listEvents = new();
             foreach(var val in Events)
             {
                 MemCache.TryGetValue(val.Id, out PoliceEvent pEvent);

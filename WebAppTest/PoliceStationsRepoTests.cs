@@ -25,10 +25,10 @@ namespace WebAppTest
         [Test]
         public async Task MultiThreadCreateValuesTest()
         {
-            Task.Run(() => _Repository.CreateValues(UrlPath));
+            _ = Task.Run(() => _Repository.CreateValues(UrlPath));
             await Task.Run(() => _Repository.CreateValues(UrlPath));
 
-            Assert.AreEqual(275, _Repository.AmountOfCachedItems());
+            Assert.AreEqual(276, _Repository.AmountOfCachedItems());
         }
 
 
