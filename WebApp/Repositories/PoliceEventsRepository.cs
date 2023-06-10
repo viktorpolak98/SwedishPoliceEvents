@@ -112,7 +112,7 @@ namespace WebApp.Repositories
                 string locationName = Element.GetProperty("location").GetProperty("name").ToString();
                 EventType eventType = GetType(Element.GetProperty("type").ToString());
 
-                PoliceEvent Event = new PoliceEvent
+                PoliceEvent Event = new ()
                 {
                     Id = Element.GetProperty("id").ToString(),
                     Date = DateConverter(Element.GetProperty("datetime").ToString()),
@@ -148,6 +148,13 @@ namespace WebApp.Repositories
 
             doc.Dispose();
 
+        }
+
+        public void CreateCacheEntry(PoliceEvent key, int time = 10)
+        {
+            using var entry = MemCache.CreateEntry(key.Id);
+            entry.Value = key;
+            entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(time);
         }
 
         /// <summary>
@@ -277,6 +284,5 @@ namespace WebApp.Repositories
             }
             return listEvents;
         }
-
     }
 }
