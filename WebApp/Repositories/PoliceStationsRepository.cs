@@ -10,6 +10,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using WebApp.Models.PoliceEvent;
+using static System.Collections.Specialized.BitVector32;
 
 namespace WebApp.Repositories
 {
@@ -88,7 +89,7 @@ namespace WebApp.Repositories
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
 
 
-                PoliceStation station = new PoliceStation
+                PoliceStation station = new ()
                 {
                     Id = Element.GetProperty("id").ToString(),
                     Name = Element.GetProperty("name").ToString(),
@@ -107,15 +108,18 @@ namespace WebApp.Repositories
 
                 Stations.Add(station);
 
-                using var entry = MemCache.CreateEntry(station.Id);
-                entry.Value = station;
-                entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(1);
-
             }
 
 
             doc.Dispose();
 
+        }
+
+        public void CreateCacheEntry(PoliceStation key, int time = 1)
+        {
+            using var entry = MemCache.CreateEntry(key.Id);
+            entry.Value = key;
+            entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(time);
         }
 
         /// <summary>
