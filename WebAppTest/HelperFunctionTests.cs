@@ -52,7 +52,7 @@ namespace WebAppTest
         [Test]
         public void OrderedDictionaryDescendingTest()
         {
-            Dictionary<EventType, int> UnorderedDict = new Dictionary<EventType, int>
+            Dictionary<EventType, int> UnorderedDict = new()
             {
                 { EventType.Alkohollagen, 4 },
                 { EventType.Brand, 2 },
@@ -63,7 +63,7 @@ namespace WebAppTest
 
             UnorderedDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(UnorderedDict);
 
-            List<int> orderedList = new List<int>();
+            List<int> orderedList = new();
 
             foreach (var val in UnorderedDict)
             {
@@ -83,7 +83,7 @@ namespace WebAppTest
         [Test]
         public void OrderedDictionaryAscendingTest()
         {
-            Dictionary<EventType, int> UnorderedDict = new Dictionary<EventType, int>
+            Dictionary<EventType, int> UnorderedDict = new()
             {
                 { EventType.Alkohollagen, 4 },
                 { EventType.Brand, 2 },
@@ -94,7 +94,7 @@ namespace WebAppTest
 
             UnorderedDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(UnorderedDict);
 
-            List<int> orderedList = new List<int>();
+            List<int> orderedList = new();
 
             foreach (var val in UnorderedDict)
             {
@@ -114,7 +114,7 @@ namespace WebAppTest
         [Test]
         public void UpdateCountTest()
         {
-            Dictionary<EventType, int> Dict = new Dictionary<EventType, int>
+            Dictionary<EventType, int> Dict = new()
             {
                 { EventType.Alkohollagen, 4 }
             };
@@ -127,7 +127,7 @@ namespace WebAppTest
         [Test]
         public void AddCountTest()
         {
-            Dictionary<EventType, int> Dict = new Dictionary<EventType, int>();
+            Dictionary<EventType, int> Dict = new();
 
             DictionaryHelper.UpdateIntValue(Dict, EventType.Alkohollagen, 2);
 

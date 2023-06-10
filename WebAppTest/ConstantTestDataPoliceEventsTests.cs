@@ -13,7 +13,7 @@ namespace WebAppTest
 {
     class ConstantTestDataPoliceEventsTests
     {
-        private readonly List<PoliceEvent> PoliceEvents = new List<PoliceEvent>();
+        private readonly List<PoliceEvent> PoliceEvents = new();
         private JsonDocument doc;
         private Dictionary<string, EventType> EventTypeDict;
         private PoliceEventsRepository _Repository;
@@ -28,7 +28,7 @@ namespace WebAppTest
             string directory = Environment.CurrentDirectory;
             directory = Directory.GetParent(directory).Parent.Parent.FullName;
 
-            using (StreamReader reader = new StreamReader(directory + "\\TestData\\TestEvents.json"))
+            using (StreamReader reader = new(directory + "\\TestData\\TestEvents.json"))
             {
                 json = reader.ReadToEnd();
             }

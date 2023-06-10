@@ -26,7 +26,7 @@ namespace WebAppTest
         [Test]
         public async Task MultiThreadCreateValuesTest()
         {
-            Task.Run(() => _Repository.CreateValues(UrlPath));
+            _ = Task.Run(() => _Repository.CreateValues(UrlPath));
             await Task.Run(() => _Repository.CreateValues(UrlPath));
 
             Assert.AreEqual(500, _Repository.AmountOfCachedItems());
@@ -101,7 +101,7 @@ namespace WebAppTest
             string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
 
 
-            PoliceEvent policeEvent = new PoliceEvent()
+            PoliceEvent policeEvent = new()
             {
                 Id = Element.GetProperty("id").ToString(),
                 Date = _Repository.DateConverter(Element.GetProperty("datetime").ToString()),

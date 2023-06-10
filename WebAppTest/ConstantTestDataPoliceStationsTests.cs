@@ -13,7 +13,7 @@ namespace WebAppTest
 {
     public class ConstantTestDataPoliceStationsTests
     {
-        private readonly List<PoliceStation> PoliceStations = new List<PoliceStation>();
+        private readonly List<PoliceStation> PoliceStations = new();
         private JsonDocument doc;
         private Dictionary<string, ServiceType> ServiceTypeDict;
         private PoliceStationsRepository _Repository;
@@ -28,7 +28,7 @@ namespace WebAppTest
             string directory = Environment.CurrentDirectory;
             directory = Directory.GetParent(directory).Parent.Parent.FullName;
 
-            using (StreamReader reader = new StreamReader(directory + "\\TestData\\TestPoliceStations.json"))
+            using (StreamReader reader = new(directory + "\\TestData\\TestPoliceStations.json"))
             {
                 json = reader.ReadToEnd();
             }
@@ -48,7 +48,7 @@ namespace WebAppTest
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
 
-                List<ServiceType> serviceTypes = new List<ServiceType>();
+                List<ServiceType> serviceTypes = new();
                 foreach (JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
                     serviceTypes.Add(ServiceTypeDict[service.GetProperty("name").ToString()]);
@@ -57,7 +57,7 @@ namespace WebAppTest
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
 
 
-                PoliceStation station = new PoliceStation
+                PoliceStation station = new()
                 {
                     Id = Element.GetProperty("id").ToString(),
                     Name = Element.GetProperty("name").ToString(),
