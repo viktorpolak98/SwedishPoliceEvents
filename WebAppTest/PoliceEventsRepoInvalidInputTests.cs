@@ -14,13 +14,22 @@ namespace WebAppTest
     class PoliceEventsRepoInvalidInputTests
     {
         private readonly List<PoliceEvent> PoliceEvents = new();
-        private JsonDocument doc;
         private Dictionary<string, EventType> EventTypeDict;
         private PoliceEventsRepository _Repository;
 
         [SetUp]
         public void SetUp()
         {
+            CreateEvents();
+
+            _Repository = new PoliceEventsRepository(PoliceEvents);
+
+        }
+
+        public void CreateEvents()
+        {
+            PoliceEvents.Clear();
+
             string json;
 
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
@@ -34,17 +43,7 @@ namespace WebAppTest
                 json = reader.ReadToEnd();
             }
 
-            doc = JsonDocument.Parse(json);
-
-            CreateEvents();
-
-            _Repository = new PoliceEventsRepository(PoliceEvents);
-
-        }
-
-        public void CreateEvents()
-        {
-            PoliceEvents.Clear();
+            JsonDocument doc = JsonDocument.Parse(json);
 
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {

@@ -23,6 +23,16 @@ namespace WebAppTest
         [SetUp]
         public void SetUp()
         {
+            CreateStations();
+
+            _Repository = new PoliceStationsRepository(PoliceStations);
+
+        }
+
+        public void CreateStations()
+        {
+            PoliceStations.Clear();
+
             string json;
 
             string directory = Environment.CurrentDirectory;
@@ -37,16 +47,6 @@ namespace WebAppTest
             doc = JsonDocument.Parse(json);
 
             ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
-
-            CreateStations();
-
-            _Repository = new PoliceStationsRepository(PoliceStations);
-
-        }
-
-        public void CreateStations()
-        {
-            PoliceStations.Clear();
 
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {

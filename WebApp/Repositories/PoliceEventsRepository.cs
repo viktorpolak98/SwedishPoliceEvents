@@ -49,7 +49,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path">Path to api to call</param>
         /// <returns></returns>
-        public async Task CreateValues(JsonDocument events)
+        public void CreateValues(JsonDocument events)
         {
 
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call

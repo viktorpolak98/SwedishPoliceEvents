@@ -23,7 +23,7 @@ namespace WebApp.Repositories
 
         public int GetCount();
 
-        public Task CreateValues(JsonDocument values);
+        public void CreateValues(JsonDocument values);
 
         public void CreateCacheEntry(T key, int time);
     }

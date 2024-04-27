@@ -7,63 +7,65 @@ using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
 using System.Threading;
 using System.Collections.Generic;
+using System.IO;
 
 namespace WebAppTest
 {
     public class PoliceEventsRepoTests
     {
-        PoliceEventsRepository _Repository;
-        private readonly string UrlPath = "https://polisen.se/api/events";
+        private PoliceEventsRepository _Repository;
+        private JsonDocument doc;
 
         [SetUp]
         public void Setup()
         {
             _Repository = new PoliceEventsRepository();
+            
+            string json;
+            string directory = Environment.CurrentDirectory;
+            directory = Directory.GetParent(directory).Parent.Parent.FullName;
 
+
+            using (StreamReader reader = new(directory + "\\TestData\\TestEvents.json"))
+            {
+                json = reader.ReadToEnd();
+            }
+
+            doc = JsonDocument.Parse(json);
+
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            doc.Dispose();
         }
 
         //Should be ran by itself to ensure that MemCache is empty when executing test
         [Test]
         public async Task MultiThreadCreateValuesTest()
         {
-            _ = Task.Run(() => _Repository.CreateValues(UrlPath));
-            await Task.Run(() => _Repository.CreateValues(UrlPath));
+
+            _ = Task.Run(() => _Repository.CreateValues(doc));
+            await Task.Run(() => _Repository.CreateValues(doc));
 
             Assert.AreEqual(500, _Repository.AmountOfCachedItems());
         }
         
         
         [Test]
-        public async Task ValidateCachedItemsTest()
+        public void ValidateCachedItemsTest()
         {
-            await _Repository.CreateValues(UrlPath);
+
+            _Repository.CreateValues(doc);
             List<PoliceEvent> validateEventsList = _Repository.ValidateEntries();
-            Console.WriteLine(_Repository.AmountOfCachedItems());
             foreach(var val in validateEventsList)
             {
                 Assert.IsNotNull(val);
-                Console.WriteLine(val);
             }
             Assert.Pass();
         }
         
-
-
-        [Test]
-        public async Task ReadDataTest()
-        {
-            JsonDocument doc = await _Repository.ReadData("https://polisen.se/api/events");
-            Assert.NotNull(doc);
-
-            foreach (var Element in doc.RootElement.EnumerateArray())
-            {
-                Console.WriteLine($"{Element}");
-            }
-
-            doc.Dispose();
-
-            Assert.Pass();
-        }
 
         [Test]
         public void TestGetEventType()
@@ -88,15 +90,11 @@ namespace WebAppTest
         }
 
         [Test]
-        public async Task CreatePoliceEvent()
+        public void CreatePoliceEvent()
         {
-            JsonDocument doc = await _Repository.ReadData(UrlPath);
             Assert.NotNull(doc);
 
             JsonElement Element = doc.RootElement[0];
-
-            Console.WriteLine(Element.ToString());
-
 
             string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
 
@@ -120,24 +118,17 @@ namespace WebAppTest
                 }
             };
 
-            Console.WriteLine(policeEvent.ToString());
-
             Assert.NotNull(policeEvent);
             Assert.Pass();
         }
 
         [Test]
-        public async Task CreatePoliceEventsTest()
+        public void CreatePoliceEventsTest()
         {
-            await _Repository.CreateValues(UrlPath);
-
-            Console.WriteLine(_Repository.GetCount());
+            _Repository.CreateValues(doc);
 
             Assert.AreEqual(500, _Repository.GetCount());
             Assert.Pass();
-
         }
-
-
     }
 }

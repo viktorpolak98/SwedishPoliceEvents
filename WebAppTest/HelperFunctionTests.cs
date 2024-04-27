@@ -15,11 +15,6 @@ namespace WebAppTest
         {
             var enums = EnumValuesHelper.GetValues<EventType>();
 
-            foreach (var val in enums)
-            {
-                Console.WriteLine(val);
-            }
-
             Assert.NotNull(enums);
 
         }
@@ -30,7 +25,7 @@ namespace WebAppTest
             foreach (var item in Enum.GetValues(typeof(EventType)))
             {
                 var displayName = EnumValuesHelper.GetAttribute<DisplayAttribute>((EventType)item);
-                Console.WriteLine(displayName.Name);
+                Assert.NotNull(displayName);
             }
 
             Assert.Pass();
@@ -43,7 +38,8 @@ namespace WebAppTest
 
             foreach (var val in dict)
             {
-                Console.WriteLine($"{val.Key} {val.Value}");
+                Assert.NotNull(val.Key);
+                Assert.NotNull(val.Value);
             }
 
             Assert.AreEqual(dict.Count, 89);
@@ -67,8 +63,8 @@ namespace WebAppTest
 
             foreach (var val in UnorderedDict)
             {
-                Console.WriteLine(val.Value);
                 orderedList.Add(val.Value);
+                Assert.NotNull(val.Value);
             }
 
             for (int i = 0; i < orderedList.Count - 1; i++)
@@ -98,8 +94,8 @@ namespace WebAppTest
 
             foreach (var val in UnorderedDict)
             {
-                Console.WriteLine(val.Value);
                 orderedList.Add(val.Value);
+                Assert.NotNull (val.Value);
             }
 
             for (int i = 0; i < orderedList.Count - 1; i++)

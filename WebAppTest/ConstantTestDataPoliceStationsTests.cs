@@ -6,7 +6,6 @@ using WebApp.Models.PoliceStation;
 using WebApp.Models.Shared;
 using System.IO;
 using System.Collections.Generic;
-using System.Globalization;
 using WebApp.HelperFunctions;
 
 namespace WebAppTest
@@ -14,13 +13,23 @@ namespace WebAppTest
     public class ConstantTestDataPoliceStationsTests
     {
         private readonly List<PoliceStation> PoliceStations = new();
-        private JsonDocument doc;
         private Dictionary<string, ServiceType> ServiceTypeDict;
         private PoliceStationsRepository _Repository;
 
         [SetUp]
         public void SetUp()
         {
+            CreateEvents();
+
+            _Repository = new PoliceStationsRepository(PoliceStations);
+
+        }
+
+
+        public void CreateEvents()
+        {
+            PoliceStations.Clear();
+
             string json;
 
             ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
@@ -33,17 +42,7 @@ namespace WebAppTest
                 json = reader.ReadToEnd();
             }
 
-            doc = JsonDocument.Parse(json);
-
-            CreateEvents();
-
-            _Repository = new PoliceStationsRepository(PoliceStations);
-
-        }
-
-        public void CreateEvents()
-        {
-            PoliceStations.Clear();
+            JsonDocument doc = JsonDocument.Parse(json);
 
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
@@ -77,9 +76,7 @@ namespace WebAppTest
                 PoliceStations.Add(station);
             }
 
-
             doc.Dispose();
-
         }
 
         [Test]
