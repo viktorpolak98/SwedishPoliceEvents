@@ -16,7 +16,7 @@ namespace WebApp.Repositories
     /// <summary>
     /// Repository used to store data regarding PoliceEvents. Inherits PoliceAPICaller class.
     /// </summary>
-    public class PoliceEventsRepository : PoliceAPICaller, IRepository<PoliceEvent, EventType>
+    public class PoliceEventsRepository : IRepository<PoliceEvent, EventType>
     {
         private readonly List<PoliceEvent> Events = new();
         private readonly Dictionary<string, EventType> EventTypeDict;
@@ -49,7 +49,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path">Path to api to call</param>
         /// <returns></returns>
-        public async Task CreateValues(string path)
+        public async Task CreateValues(JsonDocument events)
         {
 
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
@@ -67,7 +67,7 @@ namespace WebApp.Repositories
                 return;
             }
 
-            await CreateEvents(path);
+            CreateEvents(events);
 
             RequestSemaphore.Release();
         }
@@ -95,17 +95,16 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private async Task CreateEvents(string path)
+        private void CreateEvents(JsonDocument events)
         {
-            JsonDocument doc = await ReadData(path);
 
-            if (doc == null)
+            if (events == null)
             {
                 return;
             }
             BeforeCreateEvents();
 
-            foreach (JsonElement Element in doc.RootElement.EnumerateArray())
+            foreach (JsonElement Element in events.RootElement.EnumerateArray())
             {
 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
@@ -146,7 +145,7 @@ namespace WebApp.Repositories
 
             AfterCreateEvents();
 
-            doc.Dispose();
+            events.Dispose();
 
         }
 

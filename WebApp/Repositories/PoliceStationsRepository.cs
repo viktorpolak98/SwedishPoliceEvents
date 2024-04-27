@@ -15,10 +15,10 @@ using static System.Collections.Specialized.BitVector32;
 namespace WebApp.Repositories
 {
     /// <summary>
-    /// Repository used to store data regarding PoliceStations. Inherits PoliceAPICaller class.
+    /// Repository used to store data regarding PoliceStations.
     /// WORK IN PROGRESS
     /// </summary>
-    public class PoliceStationsRepository : PoliceAPICaller, IRepository<PoliceStation, ServiceType>
+    public class PoliceStationsRepository : IRepository<PoliceStation, ServiceType>
     {
         private readonly List<PoliceStation> Stations = new();
         private readonly Dictionary<string, ServiceType> ServiceTypeDict;
@@ -46,7 +46,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path">Path to api to call</param>
         /// <returns></returns>
-        public async Task CreateValues(string path)
+        public async Task CreateValues(JsonDocument stations)
         {
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
             if (MemCache.Count == 276)
@@ -63,21 +63,22 @@ namespace WebApp.Repositories
                 return;
             }
 
-            await CreateStations(path);
+            CreateStations(stations);
 
             RequestSemaphore.Release();
         }
 
-        public async Task CreateStations(string path)
+        public void CreateStations(JsonDocument stations)
         {
-            JsonDocument doc = await ReadData(path);
 
-            if (doc == null) return;
-
+            if (stations == null)
+            {
+                return;
+            }
             Stations.Clear();
 
 
-            foreach (JsonElement Element in doc.RootElement.EnumerateArray())
+            foreach (JsonElement Element in stations.RootElement.EnumerateArray())
             {
 
                 List<ServiceType> serviceTypes = new();
@@ -111,7 +112,7 @@ namespace WebApp.Repositories
             }
 
 
-            doc.Dispose();
+            stations.Dispose();
 
         }
 

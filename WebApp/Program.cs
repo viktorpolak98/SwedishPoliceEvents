@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddHttpClient<IReadData<JsonDocument>, PoliceAPICaller>(client =>
 {
-    client.BaseAddress = new Uri("");
+    client.BaseAddress = new Uri("https://polisen.se/api");
 }).SetHandlerLifetime(TimeSpan.FromMinutes(15));
 
 builder.Services.AddRazorPages();

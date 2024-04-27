@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace WebApp.Repositories
@@ -22,7 +23,7 @@ namespace WebApp.Repositories
 
         public int GetCount();
 
-        public Task CreateValues(string path);
+        public Task CreateValues(JsonDocument values);
 
         public void CreateCacheEntry(T key, int time);
     }

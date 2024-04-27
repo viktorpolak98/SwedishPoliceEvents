@@ -12,11 +12,11 @@ namespace WebApp.Repositories
     /// </summary>
     public class PoliceAPICaller : IReadData<JsonDocument>
     {
-        private readonly HttpClient Client;
+        private readonly HttpClient _client;
 
-        public PoliceAPICaller()
+        public PoliceAPICaller(HttpClient client)
         {
-            Client = new HttpClient();
+            _client = client;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace WebApp.Repositories
             {
                 try
                 {
-                    HttpResponseMessage response = await Client.GetAsync(path);
+                    HttpResponseMessage response = await _client.GetAsync(path);
 
                     if (response.IsSuccessStatusCode)
                     {
