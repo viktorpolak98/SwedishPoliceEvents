@@ -4,13 +4,10 @@ using WebApp.Models.PoliceStation;
 using WebApp.Models.Shared;
 using System.Text.Json;
 using WebApp.HelperFunctions;
-using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using System;
-using WebApp.Models.PoliceEvent;
-using static System.Collections.Specialized.BitVector32;
+using System.Diagnostics;
 
 namespace WebApp.Repositories
 {
@@ -46,10 +43,10 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="path">Path to api to call</param>
         /// <returns></returns>
-        public void CreateValues(JsonDocument stations)
+        public void CreateValues(JsonDocument doc)
         {
-            //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
-            if (MemCache.Count == 276)
+            //If Memcache.Count == 261 data about PoliceStations already exists and there is no need to do a api call
+            if (MemCache.Count == 261)
             {
                 return;
             }
@@ -57,28 +54,28 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (MemCache.Count == 276)
+            if (MemCache.Count == 261)
             {
                 RequestSemaphore.Release();
                 return;
             }
 
-            CreateStations(stations);
+            CreateStations(doc);
 
             RequestSemaphore.Release();
         }
 
-        public void CreateStations(JsonDocument stations)
+        public void CreateStations(JsonDocument doc)
         {
 
-            if (stations == null)
+            if (doc == null)
             {
                 return;
             }
             Stations.Clear();
 
 
-            foreach (JsonElement Element in stations.RootElement.EnumerateArray())
+            foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
 
                 List<ServiceType> serviceTypes = new();
@@ -108,11 +105,11 @@ namespace WebApp.Repositories
                 };
 
                 Stations.Add(station);
+                CreateCacheEntry(station);
 
             }
 
-
-            stations.Dispose();
+            doc.Dispose();
 
         }
 

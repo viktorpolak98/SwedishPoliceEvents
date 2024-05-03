@@ -102,7 +102,7 @@ namespace WebAppTest
         [Test]
         public void TestPoliceStationsFromLocation()
         {
-            string locationName = "Medborgargatan 16 B, Degerfors";
+            string locationName = "Folkungavägen 2, Nyköping";
 
             List<PoliceStation> list = _Repository.GetAllByLocationName(locationName);
 
@@ -134,7 +134,7 @@ namespace WebAppTest
             List<PoliceStation> stationsOfSpecificType = _Repository.GetAllByType(ServiceType.Delgivning);
 
             Assert.NotNull(stationsOfSpecificType);
-            Assert.AreEqual(31, stationsOfSpecificType.Count);
+            Assert.AreEqual(28, stationsOfSpecificType.Count);
 
 
             foreach (PoliceStation e in stationsOfSpecificType)

@@ -23,7 +23,7 @@ namespace WebAppTest
             directory = Directory.GetParent(directory).Parent.Parent.FullName;
 
 
-            using (StreamReader reader = new(directory + "\\TestData\\TestEvents.json"))
+            using (StreamReader reader = new(directory + "\\TestData\\TestPoliceStations.json"))
             {
                 json = reader.ReadToEnd();
             }
@@ -45,7 +45,7 @@ namespace WebAppTest
             _ = Task.Run(() => _Repository.CreateValues(doc));
             await Task.Run(() => _Repository.CreateValues(doc));
 
-            Assert.AreEqual(276, _Repository.AmountOfCachedItems());
+            Assert.AreEqual(261, _Repository.AmountOfCachedItems());
         }
 
 
@@ -76,7 +76,7 @@ namespace WebAppTest
         {
             _Repository.CreateValues(doc);
 
-            Assert.AreEqual(275, _Repository.GetCount());
+            Assert.AreEqual(261, _Repository.GetCount());
             Assert.Pass();
         }
     }

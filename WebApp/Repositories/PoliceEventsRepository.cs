@@ -131,13 +131,7 @@ namespace WebApp.Repositories
                 };
 
                 Events.Add(Event);
-
-
-                using (var entry = MemCache.CreateEntry(Event.Id))
-                {
-                    entry.Value = Event;
-                    entry.AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(10);
-                }
+                CreateCacheEntry(Event);
 
                 leaderboard.AddCountEvent(eventType);
                 leaderboard.AddCountEventLocation(locationName);

@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
-using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 
