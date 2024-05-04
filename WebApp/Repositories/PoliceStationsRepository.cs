@@ -68,7 +68,7 @@ namespace WebApp.Repositories
         public void CreateStations(JsonDocument doc)
         {
 
-            if (doc == null)
+            if (doc is null)
             {
                 return;
             }

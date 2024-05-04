@@ -98,7 +98,7 @@ namespace WebApp.Repositories
         private void CreateEvents(JsonDocument events)
         {
 
-            if (events == null)
+            if (events is null)
             {
                 return;
             }
