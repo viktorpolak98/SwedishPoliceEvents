@@ -2,17 +2,6 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your Javascript code.
-import { events, addEventToList } from "./ListEvent";
 
-
-function addItemsToList() {
-    const eventListElement = document.getElementById("eventList");
-
-    events.forEach(event => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `${event.title} - ${event.city}`;
-        eventListElement.appendChild(listItem);
-    });
-}
 
 

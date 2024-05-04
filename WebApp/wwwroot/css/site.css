@@ -73,3 +73,29 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/* Gridbox
+-------------------------------------------------- */
+.gridbox {
+    display: grid;
+    gap: 10px 20px;
+    grid-template-columns: auto auto auto;
+    background-color: aqua; /* Temporary color to display grid */
+    margin: 15px;
+}
+
+.grid-item-container {
+    margin: 15px;
+}
+
+.upper-grid-item {
+    text-align: center;
+    height: 75px;
+    background-color: blueviolet; /* Temporary color to display item */
+}
+
+.lower-grid-item {
+    text-align: center;
+    height: 150px;
+    background-color: darkgreen; /* Temporary color to display item */
+}
