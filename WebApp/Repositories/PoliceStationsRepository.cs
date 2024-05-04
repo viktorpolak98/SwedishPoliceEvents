@@ -7,7 +7,6 @@ using WebApp.HelperFunctions;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Diagnostics;
 
 namespace WebApp.Repositories
 {
@@ -21,6 +20,7 @@ namespace WebApp.Repositories
         private readonly Dictionary<string, ServiceType> ServiceTypeDict;
         private readonly SemaphoreSlim RequestSemaphore = new (1, 1);
         private readonly MemoryCache MemCache = new (new MemoryCacheOptions());
+        private int NumberOfStations { get; set; } = -1; //-1 = no value exists
 
         /// <summary>
         /// For testing purposes
@@ -45,8 +45,8 @@ namespace WebApp.Repositories
         /// <returns></returns>
         public void CreateValues(JsonDocument doc)
         {
-            //If Memcache.Count == 261 data about PoliceStations already exists and there is no need to do a api call
-            if (MemCache.Count == 261)
+            //If Memcache.Count == NumberOfStations data about PoliceStations already exists and there is no need to do a api call MemCache keeps data for 24hours
+            if (MemCache.Count == NumberOfStations)
             {
                 return;
             }
@@ -54,7 +54,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (MemCache.Count == 261)
+            if (MemCache.Count == NumberOfStations)
             {
                 RequestSemaphore.Release();
                 return;
@@ -74,10 +74,8 @@ namespace WebApp.Repositories
             }
             Stations.Clear();
 
-
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
-
                 List<ServiceType> serviceTypes = new();
                 foreach(JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
@@ -109,6 +107,7 @@ namespace WebApp.Repositories
 
             }
 
+            NumberOfStations = Stations.Count;
             doc.Dispose();
 
         }
