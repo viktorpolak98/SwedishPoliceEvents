@@ -8,15 +8,31 @@
 export const events = [];
 
 export function addEventToList(title, city) {
-    events.push(new ListEvent(tite, city));
+    events.push(new ListEvent(title, city));
 }
 
 export function addItemsToGrid() {
-    const eventListElement = document.getElementById("eventList");
+    events.length = 0;
+    const gridBox = document.getElementById("gridbox");
+    gridBox.innerHTML = "";
+
 
     events.forEach(event => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `${event.title} - ${event.city}`;
-        eventListElement.appendChild(listItem);
+        const gridContainer = document.createElement("div");
+        gridContainer.className = "grid-item-container";
+
+        const upperGridItem = document.createElement("div");
+        upperGridItem.className = "upper-grid-item";
+        const upperItemText = document.createTextNode(event.city);
+        upperGridItem.appendChild(upperItemText);
+
+        const lowerGridItem = document.createElement("div");
+        lowerGridItem.className = "lower-grid-item";
+        const lowerItemText = document.createTextNode(event.title);
+        lowerGridItem.appendChild(lowerItemText);
+
+        gridContainer.appendChild(upperGridItem);
+        gridContainer.appendChild(lowerGridItem);
+        gridBox.appendChild(gridContainer);
     });
 }
