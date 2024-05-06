@@ -18,21 +18,10 @@ export function addItemsToGrid() {
 
 
     events.forEach(event => {
-        const gridContainer = document.createElement("div");
-        gridContainer.className = "grid-item-container";
+        const eventElement = document.createElement("event-component");
+        eventElement.updateUpperText(event.city);
+        eventElement.updateLowerText(event.title);
 
-        const upperGridItem = document.createElement("div");
-        upperGridItem.className = "upper-grid-item";
-        const upperItemText = document.createTextNode(event.city);
-        upperGridItem.appendChild(upperItemText);
-
-        const lowerGridItem = document.createElement("div");
-        lowerGridItem.className = "lower-grid-item";
-        const lowerItemText = document.createTextNode(event.title);
-        lowerGridItem.appendChild(lowerItemText);
-
-        gridContainer.appendChild(upperGridItem);
-        gridContainer.appendChild(lowerGridItem);
-        gridBox.appendChild(gridContainer);
+        gridBox.appendChild(eventElement);
     });
 }
