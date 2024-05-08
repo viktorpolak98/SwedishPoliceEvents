@@ -91,11 +91,11 @@ body {
 .upper-grid-item {
     text-align: center;
     height: 75px;
-    background-color: blueviolet; /* Temporary color to display item */
+    background-color: blueviolet;
 }
 
 .lower-grid-item {
     text-align: center;
-    height: 150px;
-    background-color: darkgreen; /* Temporary color to display item */
+    height: 75px;
+    background-color: darkgreen;
 }
