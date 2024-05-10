@@ -87,7 +87,7 @@ body {
 .grid-item-container {
     margin: 15px;
     height: 150px;
-    background-color:aquamarine;
+    background-color: aquamarine;
 }
 
 .upper-grid-item {
@@ -100,4 +100,9 @@ body {
     text-align: center;
     height: 75px;
     background-color: darkgreen;
+}
+
+.detail-view {
+    text-align: center;
+    width: 0%;
 }

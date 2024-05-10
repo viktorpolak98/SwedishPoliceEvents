@@ -20,6 +20,7 @@ export function addItemsToGrid() {
     events.forEach(event => {
         const container = document.createElement("div");
         container.className = "grid-item-container";
+        container.onclick = clickItem();
 
         const upperComponent = document.createElement("div");
         upperComponent.className = "upper-grid-item";
@@ -34,4 +35,8 @@ export function addItemsToGrid() {
 
         gridBox.appendChild(container);
     });
+}
+
+export function clickItem() {
+    console.log("click");
 }
