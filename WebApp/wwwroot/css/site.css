@@ -18,6 +18,27 @@ a {
   border-color: #1861ac;
 }
 
+.text-input {
+    
+}
+
+.search-button {
+    background-color: white;
+    padding: 2px 25px 2px 25px; 
+    border-radius: 2px;
+    border: 1px solid grey;
+}
+
+    .search-button:hover {
+        background-color: lightgray;
+        transition: 0.3s;
+        border-color: #4f4f4f;
+    }
+
+.search-button:focus {
+    border-color: black;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
@@ -74,14 +95,14 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-/* Gridbox
+/* Item placements
 -------------------------------------------------- */
-.gridcontainer {
-    display: inline-grid;
-    grid-template-columns: auto auto;
-    grid-template-areas: "gridbox detail-view"; 
+.flexcontainer {
+    display: inline-flex;
+    flex-wrap: wrap;
     width: 100%;
     gap: 10px 10px;
+    grid-template-columns: auto auto;
 }
 
 .gridbox {
@@ -91,6 +112,7 @@ body {
     background-color: aqua; /* Temporary color to display grid */
     margin: 10px 0px 10px 10px; 
     float: left;
+    flex-grow: 1;
 }
 
 .grid-item-container {
@@ -117,4 +139,5 @@ body {
     display: inline-block;
     float: right;
     border: 1px solid black;
+    flex-grow: 1;
 }

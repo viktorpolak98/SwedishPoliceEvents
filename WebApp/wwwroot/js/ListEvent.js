@@ -1,14 +1,20 @@
 ﻿class ListEvent {
-    constructor(title, city) {
-        this.title = title;
-        this.city = city;
+    constructor(id, datetime, name, summary, url, type, locationName, locationGps) {
+        this.id = id;
+        this.datetime = datetime;
+        this.name = name;
+        this.summary = summary;
+        this.url = url;
+        this.type = type;
+        this.locationName = locationName;
+        this.locationGps = locationGps;
     }
 }
 
 export const events = [];
 
-export function addEventToList(title, city) {
-    events.push(new ListEvent(title, city));
+export function addEventToList(id, datetime, name, summary, url, type, locationName, locationGps) {
+    events.push(new ListEvent(id, datetime, name, summary, url, type, locationName, locationGps));
 }
 
 export function addItemsToGrid() {
@@ -24,11 +30,11 @@ export function addItemsToGrid() {
 
         const upperComponent = document.createElement("div");
         upperComponent.className = "upper-grid-item";
-        upperComponent.textContent = event.city;
+        upperComponent.textContent = event.locationName;
 
         const lowerComponent = document.createElement("div");
         lowerComponent.className = "lower-grid-item";
-        lowerComponent.textContent = event.title;
+        lowerComponent.textContent = event.name;
 
         container.appendChild(upperComponent);
         container.appendChild(lowerComponent);
