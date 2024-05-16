@@ -1,8 +1,8 @@
 ﻿class ListEvent {
-    constructor(id, datetime, name, summary, url, type, locationName, locationGps) {
+    constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
         this.id = id;
         this.datetime = datetime;
-        this.name = name;
+        this.name = eventname;
         this.summary = summary;
         this.url = url;
         this.type = type;
@@ -11,10 +11,10 @@
     }
 }
 
-export const events = [];
+const mapOfEvents = new Map();
 
-export function addEventToList(id, datetime, name, summary, url, type, locationName, locationGps) {
-    events.push(new ListEvent(id, datetime, name, summary, url, type, locationName, locationGps));
+export function addEventToMap(ListEvent) {
+    mapOfEvents.set(ListEvent.id, ListEvent)
 }
 
 export function addItemsToGrid() {
@@ -23,26 +23,43 @@ export function addItemsToGrid() {
     gridBox.innerHTML = "";
 
 
-    events.forEach(event => {
+    mapOfEvents.forEach(id, event => {
         const container = document.createElement("div");
         container.className = "grid-item-container";
-        container.onclick = clickItem();
-
+        
         const upperComponent = document.createElement("div");
         upperComponent.className = "upper-grid-item";
-        upperComponent.textContent = event.locationName;
+        upperComponent.textContent = event.id;
 
         const lowerComponent = document.createElement("div");
         lowerComponent.className = "lower-grid-item";
-        lowerComponent.textContent = event.name;
+        lowerComponent.textContent = event.eventname;
 
         container.appendChild(upperComponent);
         container.appendChild(lowerComponent);
 
+        container.onclick = clickItem(upperComponent.textContent);
         gridBox.appendChild(container);
     });
 }
 
-export function clickItem() {
-    console.log("click");
+function clickItem(id) {
+    const flexbox = document.getElementById("flexcontainer");
+
+    if (!document.contains(document.getElementById("detail-view"))) {
+        let details = document.createElement("div");
+        details.className = "detail-view";
+        details.id = "detail-view";
+        flexbox.appendChild(details);
+    }
+
+    const details = document.getElementById("detail-view");
+    ListEvent = mapOfEvents.get(id);
+
+    details.innerHTML = `${ListEvent.id}
+    ${ListEvent.eventname} 
+    ${ListEvent.summary}
+    ${ListEvent.type}
+    ${ListEvent.locationName} ${ListEvent.locationGps} 
+    `
 }
