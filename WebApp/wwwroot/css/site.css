@@ -29,14 +29,20 @@ a {
     border: 1px solid grey;
 }
 
-    .search-button:hover {
-        background-color: lightgray;
-        transition: 0.3s;
-        border-color: #4f4f4f;
-    }
+.search-button:hover {
+    background-color: lightgray;
+    transition: 0.3s;
+    border-color: #4f4f4f;
+}
 
 .search-button:focus {
     border-color: black;
+}
+
+.close-button {
+    position: relative; 
+    top: auto;
+    right: auto;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -135,7 +141,8 @@ body {
 
 .detail-view {
     margin: 10px 10px 10px 0px;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
     display: inline-block;
     float: right;
     border: 1px solid black;
