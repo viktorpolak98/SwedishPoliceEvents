@@ -40,9 +40,9 @@ a {
 }
 
 .close-button {
-    position: relative; 
-    top: auto;
-    right: auto;
+    position: absolute; 
+    top: 0;
+    right: 0;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -147,4 +147,5 @@ body {
     float: right;
     border: 1px solid black;
     flex-grow: 1;
+    position: relative;
 }
