@@ -43,6 +43,9 @@ a {
     position: absolute; 
     top: 0;
     right: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
