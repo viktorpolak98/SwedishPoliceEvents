@@ -48,6 +48,12 @@ a {
     cursor: pointer;
 }
 
+.close-button:focus {
+    background: none;
+    border: none;
+    outline: none;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
