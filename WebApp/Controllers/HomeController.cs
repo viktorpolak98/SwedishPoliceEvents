@@ -7,14 +7,60 @@ using WebApp.Repositories;
 
 namespace WebApp.Controllers
 {
+    [ApiController]
+    [Route("/")]
     public class HomeController : Controller
     {
         public PoliceEventsRepository Repository { get; set; }
 
 
-        public IActionResult Index()
+        [HttpGet]
+        [Route("GetAllPoliceEvents")]
+        public IActionResult GetAllPoliceEvents()
         {
-            return View();
+
+
+            return Ok("stuff");
+        }
+
+        [HttpGet]
+        [Route("GetPoliceEventsByLocation")]
+        public IActionResult GetPoliceEventsByLocation(string location)
+        {
+
+
+            return Ok("stuff");
+        }
+
+        [HttpGet]
+        [Route("GetPoliceEventsByType")]
+        public IActionResult GetPoliceEventsByType(string type)
+        {
+
+
+            return Ok("stuff");
+        }
+
+
+        [HttpGet]
+        [Route("GetAllPoliceStations")]
+        public IActionResult GetAllPoliceStations()
+        {
+            return Ok("stuff");
+        }
+
+        [HttpGet]
+        [Route("GetPoliceStationsByLocation")]
+        public IActionResult GetPoliceStationsByLocation()
+        {
+            return Ok("stuff");
+        }
+
+        [HttpGet]
+        [Route("GetPoliceStationsByService")]
+        public IActionResult GetPoliceStationsByService()
+        {
+            return Ok("stuff");
         }
     }
 }
