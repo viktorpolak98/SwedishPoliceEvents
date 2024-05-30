@@ -6,7 +6,6 @@ using WebApp.Models.Shared;
 using System.Text.Json;
 using WebApp.HelperFunctions;
 using System.Globalization;
-using System.Threading.Tasks;
 using WebApp.Logic;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;

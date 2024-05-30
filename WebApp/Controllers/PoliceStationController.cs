@@ -2,11 +2,29 @@
 
 namespace WebApp.Controllers
 {
+    [ApiController]
+    [Route("/PoliceStation")]
     public class PoliceStationController : Controller
     {
-        public IActionResult Index()
+        [HttpGet]
+        [Route("GetAllPoliceStations")]
+        public IActionResult GetAllPoliceStations()
         {
-            return View();
+            return Ok("stuff");
+        }
+
+        [HttpGet]
+        [Route("GetPoliceStationsByLocation")]
+        public IActionResult GetPoliceStationsByLocation(string location)
+        {
+            return Ok("stuff");
+        }
+
+        [HttpGet]
+        [Route("GetPoliceStationsByService")]
+        public IActionResult GetPoliceStationsByService(string service)
+        {
+            return Ok("stuff");
         }
     }
 }
