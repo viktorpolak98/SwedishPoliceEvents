@@ -12,6 +12,8 @@ namespace WebApp.Controllers
 
         private readonly PoliceEventsRepository _repository = new();
         private readonly PoliceAPICaller _apiCaller;
+        //TODO: Change to real path
+        private readonly string path = "";
 
         public PoliceEventController(HttpClient client)
         {
@@ -22,8 +24,11 @@ namespace WebApp.Controllers
         [Route("GetAllPoliceEvents")]
         public IActionResult GetAllPoliceEvents()
         {
-            //TODO: Add check if result exists
-            _repository.CreateValues(_apiCaller.ReadData("").Result);
+            if (!_repository.CacheIsFull())
+            {
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+            }
+
             return Ok(_repository.GetAll());
         }
 
@@ -31,18 +36,24 @@ namespace WebApp.Controllers
         [Route("GetPoliceEventsByLocation")]
         public IActionResult GetPoliceEventsByLocation(string location)
         {
+            if (!_repository.CacheIsFull())
+            {
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+            }
 
-
-            return Ok("stuff");
+            return Ok(_repository.GetAllByLocationName(location));
         }
 
         [HttpGet]
         [Route("GetPoliceEventsByType")]
-        public IActionResult GetPoliceEventsByType(string type)
+        public IActionResult GetPoliceEventsByDisplayName(string displayName)
         {
+            if (!_repository.CacheIsFull())
+            {
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+            }
 
-
-            return Ok("stuff");
+            return Ok(_repository.GetAllByDisplayName(displayName));
         }
     }
 }

@@ -76,7 +76,7 @@ namespace WebAppTest
         {
             _Repository.CreateValues(doc);
 
-            Assert.AreEqual(261, _Repository.GetCount());
+            Assert.True(_Repository.CacheIsFull());
             Assert.Pass();
         }
     }

@@ -46,7 +46,7 @@ namespace WebApp.Repositories
         public void CreateValues(JsonDocument doc)
         {
             //If Memcache.Count == NumberOfStations data about PoliceStations already exists and there is no need to do a api call MemCache keeps data for 24hours
-            if (MemCache.Count == NumberOfStations)
+            if (CacheIsFull())
             {
                 return;
             }
@@ -54,7 +54,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (MemCache.Count == NumberOfStations)
+            if (CacheIsFull())
             {
                 RequestSemaphore.Release();
                 return;
@@ -196,6 +196,11 @@ namespace WebApp.Repositories
         public int GetCount()
         {
             return Stations.Count;
+        }
+
+        public bool CacheIsFull()
+        {
+            return NumberOfStations == MemCache.Count;
         }
 
         /// <summary>

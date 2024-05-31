@@ -52,7 +52,7 @@ namespace WebApp.Repositories
         {
 
             //If Memcache.Count == 500 data about PoliceEvents already exists and there is no need to do a api call
-            if (AmountOfCachedItems() == 500)
+            if (CacheIsFull())
             {
                 return;
             }
@@ -60,7 +60,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Wait();
 
             //Recheck if another thread has done the API call
-            if (AmountOfCachedItems() == 500)
+            if (CacheIsFull())
             {
                 RequestSemaphore.Release();
                 return;
@@ -252,14 +252,9 @@ namespace WebApp.Repositories
             return Events;
         }
 
-        /// <summary>
-        /// Returns amount of cached events
-        /// Used for testing if several threads access CreateValues() simultaneously
-        /// </summary>
-        /// <returns></returns>
-        public int AmountOfCachedItems()
+        public bool CacheIsFull()
         {
-            return MemCache.Count;
+            return MemCache.Count == 500;
         }
 
         /// <summary>

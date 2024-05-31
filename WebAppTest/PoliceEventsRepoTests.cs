@@ -48,7 +48,7 @@ namespace WebAppTest
             _ = Task.Run(() => _Repository.CreateValues(doc));
             await Task.Run(() => _Repository.CreateValues(doc));
 
-            Assert.AreEqual(500, _Repository.AmountOfCachedItems());
+            Assert.True(_Repository.CacheIsFull());
         }
         
         
