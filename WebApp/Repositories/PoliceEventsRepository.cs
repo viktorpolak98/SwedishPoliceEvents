@@ -19,7 +19,7 @@ namespace WebApp.Repositories
     {
         private readonly List<PoliceEvent> Events = new();
         private readonly Dictionary<string, EventType> EventTypeDict;
-        private readonly Leaderboard leaderboard;
+        public Leaderboard Leaderboard { get; }
         private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
 
         private readonly SemaphoreSlim RequestSemaphore = new(1,1);
@@ -32,14 +32,14 @@ namespace WebApp.Repositories
         {
             this.Events = Events;
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
-            leaderboard = new Leaderboard();
+            Leaderboard = new Leaderboard();
         }
 
 
         public PoliceEventsRepository()
         {
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
-            leaderboard = new Leaderboard();
+            Leaderboard = new Leaderboard();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace WebApp.Repositories
         private void BeforeCreateEvents()
         {
             Events.Clear();
-            leaderboard.ClearDictionaries();
+            Leaderboard.ClearDictionaries();
 
         }
 
@@ -86,7 +86,7 @@ namespace WebApp.Repositories
         /// </summary>
         private void AfterCreateEvents()
         {
-            leaderboard.SortDictionaries(true);
+            Leaderboard.SortDictionaries(true);
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace WebApp.Repositories
                 Events.Add(Event);
                 CreateCacheEntry(Event);
 
-                leaderboard.AddCountEvent(eventType);
-                leaderboard.AddCountEventLocation(locationName);
+                Leaderboard.AddCountEvent(eventType);
+                Leaderboard.AddCountEventLocation(locationName);
             }
 
             AfterCreateEvents();

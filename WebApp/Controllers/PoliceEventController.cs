@@ -55,5 +55,29 @@ namespace WebApp.Controllers
 
             return Ok(_repository.GetAllByDisplayName(displayName));
         }
+
+        [HttpGet]
+        [Route("GetTypeLeaderboard")]
+        public IActionResult GetTypeLeaderboard()
+        {
+            if (!_repository.CacheIsFull())
+            {
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+            }
+
+            return Ok(_repository.Leaderboard.NumberOfEventsDict);
+        }
+
+        [HttpGet]
+        [Route("GetLocationLeaderboard")]
+        public IActionResult GetLocationLeaderboard()
+        {
+            if (!_repository.CacheIsFull())
+            {
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+            }
+
+            return Ok(_repository.Leaderboard.NumberOfEventsLocationDict);
+        }
     }
 }
