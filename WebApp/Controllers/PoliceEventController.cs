@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
-using System.Text.Json;
 using WebApp.Repositories;
 
 namespace WebApp.Controllers
@@ -33,7 +32,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("GetPoliceEventsByLocation")]
+        [Route("GetPoliceEventsByLocation?city={location}")]
         public IActionResult GetPoliceEventsByLocation(string location)
         {
             if (!_repository.CacheIsFull())
@@ -45,7 +44,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("GetPoliceEventsByType")]
+        [Route("GetPoliceEventsByType?type={displayName}")]
         public IActionResult GetPoliceEventsByDisplayName(string displayName)
         {
             if (!_repository.CacheIsFull())

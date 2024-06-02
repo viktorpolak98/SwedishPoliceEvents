@@ -13,6 +13,24 @@
 
 const mapOfEvents = new Map();
 
+export function getEvents(location) {
+    const url = `/api/MyApiController/GetPoliceEventsByLocation?city=${encodeURIComponent(location)}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
 export function addEventToMap(ListEvent) {
     mapOfEvents.set(ListEvent.id, ListEvent)
 }
