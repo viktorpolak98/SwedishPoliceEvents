@@ -14,7 +14,7 @@
 const mapOfEvents = new Map();
 
 export function getEvents(location) {
-    const url = `/PoliceEvent/GetPoliceEventsByLocation?city=${encodeURIComponent(location)}`;
+    const url = `/PoliceEvent/GetPoliceEventsByLocation/city=${encodeURIComponent(location)}`;
 
     fetch(url)
         .then(response => {

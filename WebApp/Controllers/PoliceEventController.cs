@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Text.Json;
+using WebApp.Models.Shared;
 using WebApp.Repositories;
+using WebApp.Services;
 
 namespace WebApp.Controllers
 {
@@ -10,13 +14,12 @@ namespace WebApp.Controllers
     {
 
         private readonly PoliceEventsRepository _repository = new();
-        private readonly PoliceAPICaller _apiCaller;
-        //TODO: Change to real path
-        private readonly string path = "";
+        private readonly IReadData<JsonDocument> _apiCaller;
+        private readonly string path = "events/";
 
-        public PoliceEventController(HttpClient client)
+        public PoliceEventController(IReadData<JsonDocument> apiCaller)
         {
-            _apiCaller = new PoliceAPICaller(client);
+            _apiCaller = apiCaller;
         }
 
         [HttpGet]
@@ -32,27 +35,31 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("GetPoliceEventsByLocation?city={location}")]
+        [Route("GetPoliceEventsByLocation/{location}")]
         public IActionResult GetPoliceEventsByLocation(string location)
         {
+            string localPath = $"{path}?locationname={location}";
+
             if (!_repository.CacheIsFull())
             {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+                _repository.CreateValues(_apiCaller.ReadData(localPath).Result);
             }
 
             return Ok(_repository.GetAllByLocationName(location));
         }
 
         [HttpGet]
-        [Route("GetPoliceEventsByType?type={displayName}")]
-        public IActionResult GetPoliceEventsByDisplayName(string displayName)
+        [Route("GetPoliceEventsByType/{type}")]
+        public IActionResult GetPoliceEventsByDisplayName(string type)
         {
+            string localPath = $"{path}?type={type}";
+
             if (!_repository.CacheIsFull())
             {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
+                _repository.CreateValues(_apiCaller.ReadData(localPath).Result);
             }
 
-            return Ok(_repository.GetAllByDisplayName(displayName));
+            return Ok(_repository.GetAllByDisplayName(type));
         }
 
         [HttpGet]

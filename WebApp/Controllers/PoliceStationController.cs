@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using WebApp.Repositories;
+using WebApp.Services;
 
 namespace WebApp.Controllers
 {
@@ -8,9 +12,13 @@ namespace WebApp.Controllers
     public class PoliceStationController : Controller
     {
         private readonly PoliceStationsRepository _repository = new();
-        private readonly PoliceAPICaller _apiCaller;
-        //TODO: Change to real path
-        private readonly string path = "";
+        private readonly IReadData<JsonDocument> _apiCaller;
+        private readonly string path = "policestations/";
+
+        public PoliceStationController(IReadData<JsonDocument> apiCaller)
+        {
+            _apiCaller = apiCaller;
+        }
 
         [HttpGet]
         [Route("GetAllPoliceStations")]

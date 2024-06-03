@@ -8,12 +8,12 @@ using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddHttpClient<IReadData<JsonDocument>, PoliceAPICaller>(client =>
 {
-    client.BaseAddress = new Uri("https://polisen.se/api");
+    client.BaseAddress = new Uri("https://polisen.se/api/");
 }).SetHandlerLifetime(TimeSpan.FromMinutes(15));
+
+builder.Services.AddControllers();
 
 builder.Services.AddRazorPages();
 

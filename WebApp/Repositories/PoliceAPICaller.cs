@@ -36,7 +36,7 @@ namespace WebApp.Repositories
             {
                 try
                 {
-                    HttpResponseMessage response = await _client.GetAsync(path);
+                    HttpResponseMessage response = await _client.GetAsync(_client.BaseAddress+path);
 
                     if (response.IsSuccessStatusCode)
                     {
