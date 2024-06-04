@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.Net.Http;
 using System.Text.Json;
-using WebApp.Models.Shared;
 using WebApp.Repositories;
 using WebApp.Services;
 

@@ -13,22 +13,35 @@
 
 const mapOfEvents = new Map();
 
-export function getEvents(location) {
-    const url = `/PoliceEvent/GetPoliceEventsByLocation/city=${encodeURIComponent(location)}`;
+export async function getEventsByLocation(location) {
+    const url = `/PoliceEvent/GetPoliceEventsByLocation/${encodeURIComponent(location)}`;
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        data.forEach(item => {
+            const event = new ListEvent(
+                item.id, 
+                item.date, 
+                item.name, 
+                item.summary, 
+                item.url,
+                item.type, 
+                item.location.name, 
+                `${item.location.gpsLocation.latitude},${item.location.gpsLocation.longitude}`
+            );
+
+            addEventToMap(event.id, event); 
         });
+
+        return mapOfEvents;
+
+    } catch (error) {
+        console.error('Error fetching police events:', error);
+    }
 }
 
 export function addEventToMap(ListEvent) {
