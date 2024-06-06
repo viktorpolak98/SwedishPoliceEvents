@@ -134,6 +134,8 @@ body {
     margin: 15px;
     height: 150px;
     background-color: aquamarine; /* Temporary color to display */
+    display: flex;
+    flex-basis: 100%;
 }
 
 .upper-grid-item {

@@ -38,7 +38,7 @@ async function getEventsByLocation() {
                 `${item.location.gpsLocation.latitude},${item.location.gpsLocation.longitude}`
             );
             
-            addEventToMap(event.id, event); 
+            addEventToMap(event); 
         });
 
         addItemsToGrid();
@@ -56,22 +56,22 @@ function addItemsToGrid() {
     const gridBox = document.getElementById("gridbox");
     gridBox.innerHTML = "";
 
-    mapOfEvents.forEach((id, event) => {
+    mapOfEvents.forEach((id) => {
         const container = document.createElement("div");
         container.className = "grid-item-container";
         
         const upperComponent = document.createElement("div");
         upperComponent.className = "upper-grid-item";
-        upperComponent.textContent = id;
+        upperComponent.textContent = id.id;
 
         const lowerComponent = document.createElement("div");
         lowerComponent.className = "lower-grid-item";
-        lowerComponent.textContent = event.eventname;
+        lowerComponent.textContent = id.eventname;
 
         container.appendChild(upperComponent);
         container.appendChild(lowerComponent);
 
-        container.onclick = clickItem(upperComponent.textContent);
+       // container.onclick = clickItem(upperComponent.textContent);
         gridBox.appendChild(container);
     });
 }
