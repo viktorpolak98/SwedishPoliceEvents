@@ -13,8 +13,14 @@
 
 const mapOfEvents = new Map();
 
-export async function getEventsByLocation(location) {
-    const url = `/PoliceEvent/GetPoliceEventsByLocation/${encodeURIComponent(location)}`;
+async function getEventsByLocation() {
+    console.log("getEvents")
+
+    const city = document.getElementById("text-input").value;
+    console.log(city);
+
+
+    const url = `${location.origin}/PoliceEvent/GetPoliceEventsByLocation/${city}`;
 
     try {
         const response = await fetch(url);
@@ -22,6 +28,7 @@ export async function getEventsByLocation(location) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log("data: \n" + data);
         data.forEach(item => {
             const event = new ListEvent(
                 item.id, 
@@ -37,19 +44,19 @@ export async function getEventsByLocation(location) {
             addEventToMap(event.id, event); 
         });
 
-        return mapOfEvents;
+        addItemsToGrid();
 
     } catch (error) {
         console.error('Error fetching police events:', error);
     }
 }
 
-export function addEventToMap(ListEvent) {
+function addEventToMap(ListEvent) {
     mapOfEvents.set(ListEvent.id, ListEvent)
 }
 
-export function addItemsToGrid() {
-    events.length = 0;
+function addItemsToGrid() {
+    console.log("addItemsToGrid");
     const gridBox = document.getElementById("gridbox");
     gridBox.innerHTML = "";
 

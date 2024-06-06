@@ -137,6 +137,7 @@ namespace WebApp.Repositories
                 Leaderboard.AddCountEventLocation(locationName);
             }
 
+
             AfterCreateEvents();
 
             events.Dispose();
@@ -169,8 +170,8 @@ namespace WebApp.Repositories
         /// <returns></returns>
         public List<PoliceEvent> GetAllByLocationName(string locationName)
         {
-
-            return Events.Where(E => E.Location.Name == locationName).ToList();
+            return Events.Where(E => E.Location.Name.Equals(locationName)).ToList();
+            
         }
 
         /// <summary>
@@ -255,6 +256,7 @@ namespace WebApp.Repositories
 
         public bool CacheIsFull()
         {
+            Debug.WriteLine(MemCache.Count);
             return MemCache.Count == 500;
         }
 
@@ -270,6 +272,7 @@ namespace WebApp.Repositories
                 MemCache.TryGetValue(val.Id, out PoliceEvent pEvent);
                 listEvents.Add(pEvent);
             }
+
             return listEvents;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Text.Json;
 using WebApp.Repositories;
 using WebApp.Services;
@@ -35,11 +36,12 @@ namespace WebApp.Controllers
         [Route("GetPoliceEventsByLocation/{location}")]
         public IActionResult GetPoliceEventsByLocation(string location)
         {
-            string localPath = $"{path}?locationname={location}";
+            location = location.Trim(); //Remove white spaces 
+            location = char.ToUpper(location[0]) + location.Substring(1); //Capitalize first letter 
 
             if (!_repository.CacheIsFull())
             {
-                _repository.CreateValues(_apiCaller.ReadData(localPath).Result);
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
             }
 
             return Ok(_repository.GetAllByLocationName(location));
@@ -49,11 +51,9 @@ namespace WebApp.Controllers
         [Route("GetPoliceEventsByType/{type}")]
         public IActionResult GetPoliceEventsByDisplayName(string type)
         {
-            string localPath = $"{path}?type={type}";
-
             if (!_repository.CacheIsFull())
             {
-                _repository.CreateValues(_apiCaller.ReadData(localPath).Result);
+                _repository.CreateValues(_apiCaller.ReadData(path).Result);
             }
 
             return Ok(_repository.GetAllByDisplayName(type));

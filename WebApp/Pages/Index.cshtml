@@ -4,9 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
+
+<script type="text/javascript" src="~/js/ListEvent.js"></script>
+
 <div class="text-center">
-    <input class="text-input" id="text-input" placeholder="Search for a swedish city"/>
-    <button class="search-button" id="search-button">
+    <input type="text" class="text-input" id="text-input" placeholder="Search for a swedish city"/>
+    <button class="search-button" id="search-button" onclick="getEventsByLocation()">
         Search
     </button>
 </div>
