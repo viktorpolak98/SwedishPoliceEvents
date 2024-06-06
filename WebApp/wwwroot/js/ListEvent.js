@@ -2,7 +2,7 @@
     constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
         this.id = id;
         this.datetime = datetime;
-        this.name = eventname;
+        this.eventname = eventname;
         this.summary = summary;
         this.url = url;
         this.type = type;
@@ -14,10 +14,8 @@
 const mapOfEvents = new Map();
 
 async function getEventsByLocation() {
-    console.log("getEvents")
 
     const city = document.getElementById("text-input").value;
-    console.log(city);
 
 
     const url = `${location.origin}/PoliceEvent/GetPoliceEventsByLocation/${city}`;
@@ -28,7 +26,6 @@ async function getEventsByLocation() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("data: \n" + data);
         data.forEach(item => {
             const event = new ListEvent(
                 item.id, 
@@ -40,7 +37,7 @@ async function getEventsByLocation() {
                 item.location.name, 
                 `${item.location.gpsLocation.latitude},${item.location.gpsLocation.longitude}`
             );
-
+            
             addEventToMap(event.id, event); 
         });
 
@@ -56,18 +53,16 @@ function addEventToMap(ListEvent) {
 }
 
 function addItemsToGrid() {
-    console.log("addItemsToGrid");
     const gridBox = document.getElementById("gridbox");
     gridBox.innerHTML = "";
 
-
-    mapOfEvents.forEach(id, event => {
+    mapOfEvents.forEach((id, event) => {
         const container = document.createElement("div");
         container.className = "grid-item-container";
         
         const upperComponent = document.createElement("div");
         upperComponent.className = "upper-grid-item";
-        upperComponent.textContent = event.id;
+        upperComponent.textContent = id;
 
         const lowerComponent = document.createElement("div");
         lowerComponent.className = "lower-grid-item";
