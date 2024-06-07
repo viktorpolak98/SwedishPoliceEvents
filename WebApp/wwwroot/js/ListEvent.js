@@ -56,17 +56,17 @@ function addItemsToGrid() {
     const gridBox = document.getElementById("gridbox");
     gridBox.innerHTML = "";
 
-    mapOfEvents.forEach((id) => {
+    mapOfEvents.forEach((event, id) => { //Value, Key for some dumb reason 
         const container = document.createElement("div");
         container.className = "grid-item-container";
         
         const upperComponent = document.createElement("div");
         upperComponent.className = "upper-grid-item";
-        upperComponent.textContent = id.id;
+        upperComponent.textContent = id;
 
         const lowerComponent = document.createElement("div");
         lowerComponent.className = "lower-grid-item";
-        lowerComponent.textContent = id.eventname;
+        lowerComponent.textContent = event.eventname;
 
         container.appendChild(upperComponent);
         container.appendChild(lowerComponent);
