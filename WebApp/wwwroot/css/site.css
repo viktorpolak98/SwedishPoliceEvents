@@ -159,12 +159,12 @@ body {
 }
 
 .detail-view {
-    margin: 10px 10px 10px 0px;
+    margin: auto;
     text-align: left;
     padding-left: 10px;
     display: inline-block;
     float: right;
     border: 1px solid black;
     flex-grow: 1;
-    position: relative;
+    position: fixed;
 }
