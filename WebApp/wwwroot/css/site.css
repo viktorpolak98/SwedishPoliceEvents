@@ -112,12 +112,10 @@ body {
 
 /* Item placements
 -------------------------------------------------- */
-.flexcontainer {
-    display: inline-flex;
-    flex-wrap: wrap;
+.container {
+    height: 100%;
     width: 100%;
-    gap: 10px 10px;
-    grid-template-columns: auto auto;
+    position: relative; 
 }
 
 .gridbox {
@@ -161,10 +159,10 @@ body {
 .detail-view {
     margin: auto;
     text-align: left;
-    padding-left: 10px;
     display: inline-block;
     float: right;
     border: 1px solid black;
-    flex-grow: 1;
-    position: fixed;
+    inset: 0px;
+    height: 80%;
+    width: 80%;
 }
