@@ -46,6 +46,8 @@ a {
     background: none;
     border: none;
     cursor: pointer;
+    font-size: 2rem; 
+    margin: 0px;  
 }
 
 .close-button:focus {
@@ -126,6 +128,7 @@ body {
     margin: 10px 0px 10px 10px; 
     float: left;
     flex-grow: 1;
+    padding: 0rem 0rem 4rem 0rem; 
 }
 
 @media screen and (max-width: 1024px) {
@@ -163,6 +166,11 @@ body {
     float: right;
     border: 1px solid black;
     inset: 0px;
-    height: 80%;
-    width: 80%;
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    height: 50%;
+    width: 40%;
+    padding: 0px;
+    visibility: hidden;
 }
