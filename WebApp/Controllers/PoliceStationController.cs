@@ -11,12 +11,13 @@ namespace WebApp.Controllers
     [Route("/PoliceStation")]
     public class PoliceStationController : Controller
     {
-        private readonly PoliceStationsRepository _repository = new();
+        private readonly PoliceStationsRepository _repository;
         private readonly IReadData<JsonDocument> _apiCaller;
         private readonly string path = "policestations/";
 
-        public PoliceStationController(IReadData<JsonDocument> apiCaller)
+        public PoliceStationController(IReadData<JsonDocument> apiCaller, PoliceStationsRepository repository)
         {
+            _repository = repository;
             _apiCaller = apiCaller;
         }
 

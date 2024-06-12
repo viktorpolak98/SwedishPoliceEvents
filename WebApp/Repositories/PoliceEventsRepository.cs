@@ -18,7 +18,7 @@ namespace WebApp.Repositories
     /// </summary>
     public class PoliceEventsRepository : IRepository<PoliceEvent, EventType>
     {
-        private readonly List<PoliceEvent> Events = new();
+        private readonly List<PoliceEvent> Events = [];
         private readonly Dictionary<string, EventType> EventTypeDict;
         public Leaderboard Leaderboard { get; }
         private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
@@ -205,7 +205,7 @@ namespace WebApp.Repositories
         {
             if (!EventTypeDict.ContainsKey(displayName))
             {
-                return new List<PoliceEvent>();
+                return [];
             }
 
             return Events.Where(E => E.Type == EventTypeDict[displayName]).ToList();
@@ -256,7 +256,6 @@ namespace WebApp.Repositories
 
         public bool CacheIsFull()
         {
-            Debug.WriteLine(MemCache.Count);
             return MemCache.Count == 500;
         }
 
@@ -266,7 +265,7 @@ namespace WebApp.Repositories
         /// <returns></returns>
         public List<PoliceEvent> ValidateEntries()
         {
-            List<PoliceEvent> listEvents = new();
+            List<PoliceEvent> listEvents = [];
             foreach(var val in Events)
             {
                 MemCache.TryGetValue(val.Id, out PoliceEvent pEvent);
