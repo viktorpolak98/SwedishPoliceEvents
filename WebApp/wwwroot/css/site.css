@@ -7,6 +7,25 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.leaderboard {
+    text-align: left;
+    display: inline-block;
+    border: 1px solid black;
+    margin: 4.59rem 1rem 0rem 0rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 30%;
+    width: 20%;
+    padding: 0px;
+}
+
+@media screen and (max-width: 1024px) {
+    .leaderboard {
+        display: none;
+    }
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -124,7 +143,7 @@ body {
     display: grid;
     gap: 5px 10px;
     grid-template-columns: repeat(3, 1fr);
-    background-color: white; /* Temporary color to display grid */
+    background-color: white; 
     margin: 10px 0px 10px 10px; 
     float: left;
     flex-grow: 1;
