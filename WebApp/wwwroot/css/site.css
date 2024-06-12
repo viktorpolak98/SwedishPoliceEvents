@@ -12,12 +12,19 @@ a.navbar-brand {
     display: inline-block;
     border: 1px solid black;
     margin: 4.59rem 1rem 0rem 0rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     height: 30%;
     width: 20%;
     padding: 0px;
+    z-index: 100;
+}
+
+.leaderboard-header {
+    text-align: center;
+    font-size: larger;
+    background-color: lightgrey;
 }
 
 @media screen and (max-width: 1024px) {
