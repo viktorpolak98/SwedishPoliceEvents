@@ -21,7 +21,7 @@ namespace WebApp.Repositories
     {
         private readonly List<PoliceEvent> Events = [];
         private readonly Dictionary<string, EventType> EventTypeDict;
-        public Leaderboard Leaderboard { get; }
+        public Leaderboard<EventType> Leaderboard { get; }
         private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
 
         private readonly SemaphoreSlim RequestSemaphore = new(1,1);
@@ -34,14 +34,14 @@ namespace WebApp.Repositories
         {
             this.Events = Events;
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
-            Leaderboard = new Leaderboard();
+            Leaderboard = new Leaderboard<EventType>();
         }
 
 
         public PoliceEventsRepository()
         {
             EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
-            Leaderboard = new Leaderboard();
+            Leaderboard = new Leaderboard<EventType>();
         }
 
         /// <summary>

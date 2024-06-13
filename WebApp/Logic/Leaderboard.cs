@@ -7,15 +7,15 @@ namespace WebApp.Logic
     /// <summary>
     /// Leaderboard class to calculate the most occuring types of events and most frequent location
     /// </summary>
-    public class Leaderboard
+    public class Leaderboard<T>
     {
-        public Dictionary<EventType, int> NumberOfEventsDict { get; set; }
+        public Dictionary<T, int> NumberOfEventsDict { get; set; }
         public Dictionary<string, int> NumberOfEventsLocationDict { get; set; }
 
         public Leaderboard()
         {
-            NumberOfEventsDict = new Dictionary<EventType, int>();
-            NumberOfEventsLocationDict = new Dictionary<string, int>();
+            NumberOfEventsDict = [];
+            NumberOfEventsLocationDict = [];
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace WebApp.Logic
         /// Updates the count for an event
         /// </summary>
         /// <param name="eventType">The specific event to update</param>
-        public void AddCountEvent(EventType eventType)
+        public void AddCountEvent(T type)
         {
-            DictionaryHelper.UpdateIntValue(NumberOfEventsDict, eventType);
+            DictionaryHelper.UpdateIntValue(NumberOfEventsDict, type);
         }
 
         /// <summary>
