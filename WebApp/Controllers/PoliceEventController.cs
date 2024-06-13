@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Text.Json;
+using WebApp.Models.PoliceEvent;
 using WebApp.Repositories;
 using WebApp.Services;
 
@@ -12,11 +13,11 @@ namespace WebApp.Controllers
     public class PoliceEventController : Controller
     {
 
-        private readonly PoliceEventsRepository _repository;
+        private readonly IRepository<PoliceEvent, EventType> _repository;
         private readonly IReadData<JsonDocument> _apiCaller;
         private readonly string path = "events/";
 
-        public PoliceEventController(IReadData<JsonDocument> apiCaller, PoliceEventsRepository repository)
+        public PoliceEventController(IReadData<JsonDocument> apiCaller, IRepository<PoliceEvent, EventType> repository)
         {
             _repository = repository;
             _apiCaller = apiCaller;
@@ -70,7 +71,7 @@ namespace WebApp.Controllers
                 _repository.CreateValues(_apiCaller.ReadData(path).Result);
             }
 
-            return Ok(_repository.Leaderboard.NumberOfEventsDict);
+            return Ok(_repository.GetTypeLeaderboard());
         }
 
         [HttpGet]
@@ -82,7 +83,7 @@ namespace WebApp.Controllers
                 _repository.CreateValues(_apiCaller.ReadData(path).Result);
             }
 
-            return Ok(_repository.Leaderboard.NumberOfEventsLocationDict);
+            return Ok(_repository.GetLocationLeaderboard());
         }
     }
 }

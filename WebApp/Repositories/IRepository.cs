@@ -26,5 +26,10 @@ namespace WebApp.Repositories
         public void CreateValues(JsonDocument values);
 
         public void CreateCacheEntry(T key, int time);
+
+        public bool CacheIsFull();
+
+        public Dictionary<TEnum, int> GetTypeLeaderboard();
+        public Dictionary<string, int> GetLocationLeaderboard();
     }
 }

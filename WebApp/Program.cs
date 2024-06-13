@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Text.Json;
 using WebApp.Models.PoliceEvent;
+using WebApp.Models.PoliceStation;
 using WebApp.Repositories;
 using WebApp.Services;
 
@@ -14,8 +15,8 @@ builder.Services.AddHttpClient<IReadData<JsonDocument>, PoliceAPICaller>(client 
     client.BaseAddress = new Uri("https://polisen.se/api/");
 }).SetHandlerLifetime(TimeSpan.FromMinutes(15));
 
-builder.Services.AddSingleton<PoliceEventsRepository>();
-builder.Services.AddSingleton<PoliceStationsRepository>();
+builder.Services.AddSingleton<IRepository<PoliceEvent, EventType>, PoliceEventsRepository>();
+builder.Services.AddSingleton<IRepository<PoliceStation, ServiceType>, PoliceStationsRepository>();
 builder.Services.AddControllers();
 
 builder.Services.AddRazorPages();

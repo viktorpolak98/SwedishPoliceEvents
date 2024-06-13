@@ -236,5 +236,15 @@ namespace WebApp.Repositories
             }
             return listStations;
         }
+
+        public Dictionary<ServiceType, int> GetTypeLeaderboard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<string, int> GetLocationLeaderboard()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

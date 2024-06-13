@@ -10,6 +10,7 @@ using WebApp.Logic;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
 using System.Diagnostics;
+using WebApp.Models.PoliceStation;
 
 namespace WebApp.Repositories
 {
@@ -273,6 +274,16 @@ namespace WebApp.Repositories
             }
 
             return listEvents;
+        }
+
+        public Dictionary<EventType, int> GetTypeLeaderboard()
+        {
+            return Leaderboard.NumberOfEventsDict;
+        }
+
+        public Dictionary<string, int> GetLocationLeaderboard()
+        {
+            return Leaderboard.NumberOfEventsLocationDict;
         }
     }
 }

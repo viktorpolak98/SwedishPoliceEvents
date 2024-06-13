@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WebApp.Models.PoliceStation;
 using WebApp.Repositories;
 using WebApp.Services;
 
@@ -11,11 +12,11 @@ namespace WebApp.Controllers
     [Route("/PoliceStation")]
     public class PoliceStationController : Controller
     {
-        private readonly PoliceStationsRepository _repository;
+        private readonly IRepository<PoliceStation, ServiceType> _repository;
         private readonly IReadData<JsonDocument> _apiCaller;
         private readonly string path = "policestations/";
 
-        public PoliceStationController(IReadData<JsonDocument> apiCaller, PoliceStationsRepository repository)
+        public PoliceStationController(IReadData<JsonDocument> apiCaller, IRepository<PoliceStation, ServiceType> repository)
         {
             _repository = repository;
             _apiCaller = apiCaller;
