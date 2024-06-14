@@ -34,7 +34,7 @@ namespace WebApp.Logic
         public void AddCountEvent(T type)
         {
             NumberOfTypeDict.TryGetValue(type, out var count);
-            NumberOfTypeDict.Add(type, count+1);
+            NumberOfTypeDict[type] = count + 1;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace WebApp.Logic
         public void AddCountEventLocation(string location)
         {
             NumberOfLocationDict.TryGetValue(location, out var count);
-            NumberOfLocationDict.Add(location, count+1);
+            NumberOfLocationDict[location] = count + 1;
         }
 
         /// <summary>
