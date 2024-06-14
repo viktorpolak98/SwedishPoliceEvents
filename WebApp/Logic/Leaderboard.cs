@@ -9,13 +9,13 @@ namespace WebApp.Logic
     /// </summary>
     public class Leaderboard<T>
     {
-        public Dictionary<T, int> NumberOfEventsDict { get; set; }
-        public Dictionary<string, int> NumberOfEventsLocationDict { get; set; }
+        public Dictionary<T, int> NumberOfTypeDict { get; set; }
+        public Dictionary<string, int> NumberOfLocationDict { get; set; }
 
         public Leaderboard()
         {
-            NumberOfEventsDict = [];
-            NumberOfEventsLocationDict = [];
+            NumberOfTypeDict = [];
+            NumberOfLocationDict = [];
         }
 
         /// <summary>
@@ -23,17 +23,18 @@ namespace WebApp.Logic
         /// </summary>
         public void ClearDictionaries()
         {
-            NumberOfEventsDict.Clear();
-            NumberOfEventsLocationDict.Clear();
+            NumberOfTypeDict.Clear();
+            NumberOfLocationDict.Clear();
         }
 
         /// <summary>
         /// Updates the count for an event
         /// </summary>
-        /// <param name="eventType">The specific event to update</param>
+        /// <param name="type">The specific event to update</param>
         public void AddCountEvent(T type)
         {
-            DictionaryHelper.UpdateIntValue(NumberOfEventsDict, type);
+            NumberOfTypeDict.TryGetValue(type, out var count);
+            NumberOfTypeDict.Add(type, count+1);
         }
 
         /// <summary>
@@ -42,7 +43,8 @@ namespace WebApp.Logic
         /// <param name="location">The specific location to update</param>
         public void AddCountEventLocation(string location)
         {
-            DictionaryHelper.UpdateIntValue(NumberOfEventsLocationDict, location);
+            NumberOfLocationDict.TryGetValue(location, out var count);
+            NumberOfLocationDict.Add(location, count+1);
         }
 
         /// <summary>
@@ -65,8 +67,8 @@ namespace WebApp.Logic
         /// </summary>
         private void SortDictionariesAscending()
         {
-            NumberOfEventsDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(NumberOfEventsDict);
-            NumberOfEventsLocationDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(NumberOfEventsLocationDict);
+            NumberOfTypeDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(NumberOfTypeDict);
+            NumberOfLocationDict = DictionaryHelper.DictionaryToValueSortedByAscendingDictionary(NumberOfLocationDict);
         }
 
         /// <summary>
@@ -74,8 +76,8 @@ namespace WebApp.Logic
         /// </summary>
         private void SortDictionariesDescending()
         {
-            NumberOfEventsDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfEventsDict);
-            NumberOfEventsLocationDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfEventsLocationDict);
+            NumberOfTypeDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfTypeDict);
+            NumberOfLocationDict = DictionaryHelper.DictionaryToValueSortedByDescendingDictionary(NumberOfLocationDict);
         }
 
 

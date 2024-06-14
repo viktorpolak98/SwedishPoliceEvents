@@ -278,12 +278,12 @@ namespace WebApp.Repositories
 
         public Dictionary<EventType, int> GetTypeLeaderboard()
         {
-            return Leaderboard.NumberOfEventsDict;
+            return Leaderboard.NumberOfTypeDict;
         }
 
         public Dictionary<string, int> GetLocationLeaderboard()
         {
-            return Leaderboard.NumberOfEventsLocationDict;
+            return Leaderboard.NumberOfLocationDict;
         }
     }
 }

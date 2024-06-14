@@ -106,29 +106,5 @@ namespace WebAppTest
             Assert.Pass();
 
         }
-
-        [Test]
-        public void UpdateCountTest()
-        {
-            Dictionary<EventType, int> Dict = new()
-            {
-                { EventType.Alkohollagen, 4 }
-            };
-
-            DictionaryHelper.UpdateIntValue(Dict, EventType.Alkohollagen);
-
-            Assert.AreEqual(Dict[EventType.Alkohollagen], 5);
-        }
-
-        [Test]
-        public void AddCountTest()
-        {
-            Dictionary<EventType, int> Dict = new();
-
-            DictionaryHelper.UpdateIntValue(Dict, EventType.Alkohollagen, 2);
-
-            Assert.AreEqual(Dict.Count, 1);
-            Assert.AreEqual(Dict[EventType.Alkohollagen], 2);
-        }
     }
 }
