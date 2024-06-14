@@ -35,22 +35,5 @@ namespace WebApp.HelperFunctions
 
             return Dict;
         }
-
-        /// <summary>
-        /// Updates an integer value from a generic key. By default value is updated by 1
-        /// </summary>
-        /// <typeparam name="TK">Generic key</typeparam>
-        /// <param name="Dict">Dictionary to update</param>
-        /// <param name="Key">Key to update value</param>
-        /// <param name="amount">The amount to update by. By default 1</param>
-        public static void UpdateIntValue<TK>(Dictionary<TK, int> Dict, TK Key, int amount = 1)
-        {
-            if (Dict.ContainsKey(Key))
-            {
-                amount += Dict[Key];
-            }
-
-            Dict[Key] = amount;
-        }
     }
 }

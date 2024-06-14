@@ -7,6 +7,7 @@ using WebApp.HelperFunctions;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using WebApp.Logic;
 
 namespace WebApp.Repositories
 {
@@ -16,10 +17,11 @@ namespace WebApp.Repositories
     /// </summary>
     public class PoliceStationsRepository : IRepository<PoliceStation, ServiceType>
     {
-        private readonly List<PoliceStation> Stations = new();
+        private readonly List<PoliceStation> Stations = [];
         private readonly Dictionary<string, ServiceType> ServiceTypeDict;
         private readonly SemaphoreSlim RequestSemaphore = new (1, 1);
         private readonly MemoryCache MemCache = new (new MemoryCacheOptions());
+        public Leaderboard<ServiceType> leaderboard { get; }
         private int NumberOfStations { get; set; } = -1; //-1 = no value exists
 
         /// <summary>
@@ -30,11 +32,13 @@ namespace WebApp.Repositories
         {
             this.Stations = Stations;
             ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
+            leaderboard = new Leaderboard<ServiceType>();
         }
 
         public PoliceStationsRepository()
         {
             ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
+            leaderboard = new Leaderboard<ServiceType>();
         }
 
         /// <summary>
@@ -171,7 +175,7 @@ namespace WebApp.Repositories
         {
             if (!ServiceTypeDict.ContainsKey(displayName))
             {
-                return new List<PoliceStation>();
+                return [];
             }
 
             return Stations.Where(E => E.Services.Contains(ServiceTypeDict[displayName])).ToList();
@@ -239,12 +243,12 @@ namespace WebApp.Repositories
 
         public Dictionary<ServiceType, int> GetTypeLeaderboard()
         {
-            throw new NotImplementedException();
+            return leaderboard.NumberOfTypeDict;
         }
 
         public Dictionary<string, int> GetLocationLeaderboard()
         {
-            throw new NotImplementedException();
+            return leaderboard.NumberOfLocationDict;
         }
     }
 }
