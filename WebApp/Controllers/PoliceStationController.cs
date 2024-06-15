@@ -16,6 +16,7 @@ namespace WebApp.Controllers
         private readonly IReadData<JsonDocument> _apiCaller;
         private readonly string path = "policestations/";
 
+        #pragma warning disable IDE0290
         public PoliceStationController(IReadData<JsonDocument> apiCaller, IRepository<PoliceStation, ServiceType> repository)
         {
             _repository = repository;
