@@ -18,7 +18,7 @@ async function getEventsByLocation() {
     const city = document.getElementById("text-input").value;
 
 
-    const url = `${location.origin}/PoliceEvent/GetPoliceEventsByLocation/${city}`;
+    const url = `${location.origin}/PoliceEvents/GetPoliceEventsByLocation/${city}`;
 
     try {
         const response = await fetch(url);

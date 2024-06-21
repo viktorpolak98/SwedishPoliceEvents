@@ -12,7 +12,7 @@ namespace WebApp.Models.PoliceStation
         public string Name { get; set; }
         public string Url { get; set; }
         public Location Location { get; set; }
-        public List<ServiceType> Services { get; set; }
+        public List<string> Services { get; set; }
 
 
         public override string ToString()

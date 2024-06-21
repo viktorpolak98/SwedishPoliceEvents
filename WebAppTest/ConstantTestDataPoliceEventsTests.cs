@@ -7,14 +7,12 @@ using WebApp.Models.Shared;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
-using WebApp.HelperFunctions;
 
 namespace WebAppTest
 {
     class ConstantTestDataPoliceEventsTests
     {
-        private readonly List<PoliceEvent> PoliceEvents = new();
-        private Dictionary<string, EventType> EventTypeDict;
+        private readonly List<PoliceEvent> PoliceEvents = [];
         private PoliceEventsRepository _Repository;
 
         [SetUp]
@@ -29,8 +27,6 @@ namespace WebAppTest
             PoliceEvents.Clear();
 
             string json;
-
-            EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
 
             string directory = Environment.CurrentDirectory;
             directory = Directory.GetParent(directory).Parent.Parent.FullName;
@@ -55,7 +51,7 @@ namespace WebAppTest
                     Name = Element.GetProperty("name").ToString(),
                     Summary = Element.GetProperty("summary").ToString(),
                     Url = Element.GetProperty("url").ToString(),
-                    Type = EventTypeDict[Element.GetProperty("type").ToString()],
+                    Type = Element.GetProperty("type").ToString(),
                     Location = new Location
                     {
                         Name = Element.GetProperty("location").GetProperty("name").ToString(),
@@ -126,7 +122,9 @@ namespace WebAppTest
         [Test]
         public void TestGetPoliceEventsFromType()
         {
-            List<PoliceEvent> eventsOfSpecificType = _Repository.GetAllByType(EventType.Rattfylleri);
+            string type = "Rattfylleri";
+
+            List<PoliceEvent> eventsOfSpecificType = _Repository.GetAllByType(type);
 
             Assert.NotNull(eventsOfSpecificType);
             Assert.AreEqual(22, eventsOfSpecificType.Count);
@@ -134,25 +132,7 @@ namespace WebAppTest
 
             foreach (PoliceEvent e in eventsOfSpecificType)
             {
-                Assert.AreEqual(e.Type, EventType.Rattfylleri);
-            }
-
-            Assert.Pass();
-
-        }
-
-        [Test]
-        public void TestGetPoliceEventsFromTypeDisplayName()
-        {
-            string displayName = "Fylleri/LOB";
-            List<PoliceEvent> list = _Repository.GetAllByDisplayName(displayName);
-
-            Assert.NotNull(list);
-            Assert.AreEqual(6, list.Count);
-
-            foreach (PoliceEvent e in list)
-            {
-                Assert.AreEqual(e.Type, EventType.Fylleri_LOB);
+                Assert.AreEqual(e.Type, type);
             }
 
             Assert.Pass();

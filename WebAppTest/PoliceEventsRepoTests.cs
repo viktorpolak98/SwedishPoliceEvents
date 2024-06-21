@@ -64,17 +64,6 @@ namespace WebAppTest
             }
             Assert.Pass();
         }
-        
-
-        [Test]
-        public void TestGetEventType()
-        {
-            string displayName = "Kontroll person/fordon";
-            EventType type = _Repository.GetType(displayName);
-
-            Assert.AreEqual(type, EventType.Kontroll_person_fordon);
-
-        }
 
         [Test]
         public void DateParseTest()
@@ -105,7 +94,7 @@ namespace WebAppTest
                 Name = Element.GetProperty("name").ToString(),
                 Summary = Element.GetProperty("summary").ToString(),
                 Url = Element.GetProperty("url").ToString(),
-                Type = _Repository.GetType(Element.GetProperty("type").ToString()),
+                Type = Element.GetProperty("type").ToString(),
                 Location = new Location
                 {
                     Name = Element.GetProperty("location").GetProperty("name").ToString(),

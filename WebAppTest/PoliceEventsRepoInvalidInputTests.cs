@@ -7,14 +7,12 @@ using WebApp.Models.Shared;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
-using WebApp.HelperFunctions;
 
 namespace WebAppTest
 {
     class PoliceEventsRepoInvalidInputTests
     {
-        private readonly List<PoliceEvent> PoliceEvents = new();
-        private Dictionary<string, EventType> EventTypeDict;
+        private readonly List<PoliceEvent> PoliceEvents = [];
         private PoliceEventsRepository _Repository;
 
         [SetUp]
@@ -31,8 +29,6 @@ namespace WebAppTest
             PoliceEvents.Clear();
 
             string json;
-
-            EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
 
             string directory = Environment.CurrentDirectory;
             directory = Directory.GetParent(directory).Parent.Parent.FullName;
@@ -58,7 +54,7 @@ namespace WebAppTest
                     Name = Element.GetProperty("name").ToString(),
                     Summary = Element.GetProperty("summary").ToString(),
                     Url = Element.GetProperty("url").ToString(),
-                    Type = EventTypeDict[Element.GetProperty("type").ToString()],
+                    Type = Element.GetProperty("type").ToString(),
                     Location = new Location
                     {
                         Name = Element.GetProperty("location").GetProperty("name").ToString(),
@@ -113,21 +109,10 @@ namespace WebAppTest
         [Test]
         public void TestGetPoliceEventsFromNonExistingType()
         {
-            List<PoliceEvent> eventsOfSpecificType = _Repository.GetAllByType(EventType.Förfalskningsbrott);
+            List<PoliceEvent> eventsOfSpecificType = _Repository.GetAllByType("Förfalskningsbrott");
 
             Assert.NotNull(eventsOfSpecificType);
             Assert.AreEqual(0, eventsOfSpecificType.Count);
-
-        }
-
-        [Test]
-        public void TestGetPoliceEventsFromInvalidTypeDisplayName()
-        {
-            string displayName = "a";
-            List<PoliceEvent> list = _Repository.GetAllByDisplayName(displayName);
-
-            Assert.NotNull(list);
-            Assert.AreEqual(0, list.Count);
 
         }
     }

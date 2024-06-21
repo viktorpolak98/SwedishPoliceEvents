@@ -4,24 +4,20 @@ using System.Linq;
 using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
 using System.Text.Json;
-using WebApp.HelperFunctions;
 using System.Globalization;
 using WebApp.Logic;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
-using System.Diagnostics;
-using WebApp.Models.PoliceStation;
 
 namespace WebApp.Repositories
 {
     /// <summary>
     /// Repository used to store data regarding PoliceEvents. Inherits PoliceAPICaller class.
     /// </summary>
-    public class PoliceEventsRepository : IRepository<PoliceEvent, EventType>
+    public class PoliceEventsRepository : IRepository<PoliceEvent>
     {
         private readonly List<PoliceEvent> Events = [];
-        private readonly Dictionary<string, EventType> EventTypeDict;
-        public Leaderboard<EventType> Leaderboard { get; }
+        public Leaderboard Leaderboard { get; }
         private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
 
         private readonly SemaphoreSlim RequestSemaphore = new(1,1);
@@ -33,15 +29,13 @@ namespace WebApp.Repositories
         public PoliceEventsRepository(List<PoliceEvent> Events)
         {
             this.Events = Events;
-            EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
-            Leaderboard = new Leaderboard<EventType>();
+            Leaderboard = new Leaderboard();
         }
 
 
         public PoliceEventsRepository()
         {
-            EventTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<EventType>();
-            Leaderboard = new Leaderboard<EventType>();
+            Leaderboard = new Leaderboard();
         }
 
         /// <summary>
@@ -84,14 +78,6 @@ namespace WebApp.Repositories
         }
 
         /// <summary>
-        /// Sorts leaderboard dictionaries after events are created
-        /// </summary>
-        private void AfterCreateEvents()
-        {
-            Leaderboard.SortDictionaries(true);
-        }
-
-        /// <summary>
         /// Creates events from a jsondocument and populates the cache with created events. Exists in the cache for 10 minutes
         /// </summary>
         /// <param name="path"></param>
@@ -110,7 +96,7 @@ namespace WebApp.Repositories
 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
                 string locationName = Element.GetProperty("location").GetProperty("name").ToString();
-                EventType eventType = GetType(Element.GetProperty("type").ToString());
+                string eventType = Element.GetProperty("type").ToString();
 
                 PoliceEvent Event = new ()
                 {
@@ -137,9 +123,6 @@ namespace WebApp.Repositories
                 Leaderboard.AddCountEvent(eventType);
                 Leaderboard.AddCountEventLocation(locationName);
             }
-
-
-            AfterCreateEvents();
 
             events.Dispose();
 
@@ -191,25 +174,9 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="type">EventType to return</param>
         /// <returns></returns>
-        public List<PoliceEvent> GetAllByType(EventType type)
+        public List<PoliceEvent> GetAllByType(string type)
         {
             return Events.Where(E => E.Type == type).ToList();
-        }
-
-
-        /// <summary>
-        /// Returns all PoliceEvents from a specific EventType display name
-        /// </summary>
-        /// <param name="displayName">Display name to return</param>
-        /// <returns></returns>
-        public List<PoliceEvent> GetAllByDisplayName(string displayName)
-        {
-            if (!EventTypeDict.ContainsKey(displayName))
-            {
-                return [];
-            }
-
-            return Events.Where(E => E.Type == EventTypeDict[displayName]).ToList();
         }
 
         /// <summary>
@@ -225,17 +192,6 @@ namespace WebApp.Repositories
             return dateTime;
         }
 
-        /// <summary>
-        /// Returns an EventType with display name as key
-        /// </summary>
-        /// <param name="key">Display name key</param>
-        /// <returns></returns>
-        public EventType GetType(string key)
-        {
-            EventTypeDict.TryGetValue(key, out EventType eventType);
-
-            return eventType;
-        }
 
         /// <summary>
         /// Gets the amount of PoliceEvents in events list
@@ -276,7 +232,7 @@ namespace WebApp.Repositories
             return listEvents;
         }
 
-        public Dictionary<EventType, int> GetTypeLeaderboard()
+        public Dictionary<string, int> GetTypeLeaderboard()
         {
             return Leaderboard.NumberOfTypeDict;
         }

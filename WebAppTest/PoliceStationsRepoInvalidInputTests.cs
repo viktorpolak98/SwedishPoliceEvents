@@ -2,21 +2,16 @@
 using WebApp.Repositories;
 using System.Text.Json;
 using System;
-using System.Threading.Tasks;
 using WebApp.Models.PoliceStation;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using WebApp.HelperFunctions;
-using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
 
 namespace WebAppTest
 {
     public class PoliceStationsRepoInvalidInputTests
     {
-        private readonly List<PoliceStation> PoliceStations = new();
-        private Dictionary<string, ServiceType> ServiceTypeDict;
+        private readonly List<PoliceStation> PoliceStations = [];
         private JsonDocument doc;
         private PoliceStationsRepository _Repository;
 
@@ -46,14 +41,12 @@ namespace WebAppTest
 
             doc = JsonDocument.Parse(json);
 
-            ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
-
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
-                List<ServiceType> serviceTypes = new();
+                List<string> serviceTypes = new();
                 foreach (JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
-                    serviceTypes.Add(ServiceTypeDict[service.GetProperty("name").ToString()]);
+                    serviceTypes.Add(service.GetProperty("name").ToString());
                 }
 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
@@ -115,17 +108,6 @@ namespace WebAppTest
 
             Assert.Null(policeStation);
             Assert.Pass();
-        }
-
-        [Test]
-        public void TestGetPoliceEventsFromInvalidTypeDisplayName()
-        {
-            string displayName = "a";
-            List<PoliceStation> list = _Repository.GetAllByDisplayName(displayName);
-
-            Assert.NotNull(list);
-            Assert.AreEqual(0, list.Count);
-
         }
     }
 }

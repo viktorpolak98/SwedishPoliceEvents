@@ -3,7 +3,6 @@ using System.Linq;
 using WebApp.Models.PoliceStation;
 using WebApp.Models.Shared;
 using System.Text.Json;
-using WebApp.HelperFunctions;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -15,13 +14,12 @@ namespace WebApp.Repositories
     /// Repository used to store data regarding PoliceStations.
     /// WORK IN PROGRESS
     /// </summary>
-    public class PoliceStationsRepository : IRepository<PoliceStation, ServiceType>
+    public class PoliceStationsRepository : IRepository<PoliceStation>
     {
         private readonly List<PoliceStation> Stations = [];
-        private readonly Dictionary<string, ServiceType> ServiceTypeDict;
         private readonly SemaphoreSlim RequestSemaphore = new (1, 1);
         private readonly MemoryCache MemCache = new (new MemoryCacheOptions());
-        public Leaderboard<ServiceType> leaderboard { get; }
+        public Leaderboard Leaderboard { get; }
         private int NumberOfStations { get; set; } = -1; //-1 = no value exists
 
         /// <summary>
@@ -31,14 +29,12 @@ namespace WebApp.Repositories
         public PoliceStationsRepository(List<PoliceStation> Stations)
         {
             this.Stations = Stations;
-            ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
-            leaderboard = new Leaderboard<ServiceType>();
+            Leaderboard = new Leaderboard();
         }
 
         public PoliceStationsRepository()
         {
-            ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
-            leaderboard = new Leaderboard<ServiceType>();
+            Leaderboard = new Leaderboard();
         }
 
         /// <summary>
@@ -80,10 +76,10 @@ namespace WebApp.Repositories
 
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
-                List<ServiceType> serviceTypes = new();
+                List<string> serviceTypes = [];
                 foreach(JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
-                    serviceTypes.Add(GetType(service.GetProperty("name").ToString()));
+                    serviceTypes.Add(service.GetProperty("name").ToString());
                 }
                 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
@@ -161,36 +157,9 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="type">Specific service</param>
         /// <returns></returns>
-        public List<PoliceStation> GetAllByType(ServiceType type)
+        public List<PoliceStation> GetAllByType(string type)
         {
             return Stations.Where(E => E.Services.Contains(type)).ToList();
-        }
-
-        /// <summary>
-        /// Returns all PoliceStations who offer the specified service based on display name
-        /// </summary>
-        /// <param name="displayName">Service as display name</param>
-        /// <returns></returns>
-        public List<PoliceStation> GetAllByDisplayName(string displayName)
-        {
-            if (!ServiceTypeDict.ContainsKey(displayName))
-            {
-                return [];
-            }
-
-            return Stations.Where(E => E.Services.Contains(ServiceTypeDict[displayName])).ToList();
-        }
-
-        /// <summary>
-        /// Gets a ServiceType from specified key
-        /// </summary>
-        /// <param name="key">Key to ServiceType</param>
-        /// <returns></returns>
-        public ServiceType GetType(string key)
-        {
-            ServiceTypeDict.TryGetValue(key, out ServiceType serviceType);
-
-            return serviceType;
         }
 
         /// <summary>
@@ -241,14 +210,14 @@ namespace WebApp.Repositories
             return listStations;
         }
 
-        public Dictionary<ServiceType, int> GetTypeLeaderboard()
+        public Dictionary<string, int> GetTypeLeaderboard()
         {
-            return leaderboard.NumberOfTypeDict;
+            return Leaderboard.NumberOfTypeDict;
         }
 
         public Dictionary<string, int> GetLocationLeaderboard()
         {
-            return leaderboard.NumberOfLocationDict;
+            return Leaderboard.NumberOfLocationDict;
         }
     }
 }

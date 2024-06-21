@@ -9,15 +9,15 @@ using WebApp.Services;
 namespace WebApp.Controllers
 {
     [ApiController]
-    [Route("/PoliceStation")]
+    [Route("/PoliceStations")]
     public class PoliceStationController : Controller
     {
-        private readonly IRepository<PoliceStation, ServiceType> _repository;
+        private readonly IRepository<PoliceStation> _repository;
         private readonly IReadData<JsonDocument> _apiCaller;
         private readonly string path = "policestations/";
 
         #pragma warning disable IDE0290
-        public PoliceStationController(IReadData<JsonDocument> apiCaller, IRepository<PoliceStation, ServiceType> repository)
+        public PoliceStationController(IReadData<JsonDocument> apiCaller, IRepository<PoliceStation> repository)
         {
             _repository = repository;
             _apiCaller = apiCaller;
@@ -56,7 +56,7 @@ namespace WebApp.Controllers
                 _repository.CreateValues(_apiCaller.ReadData(path).Result);
             }
 
-            return Ok(_repository.GetAllByDisplayName(service));
+            return Ok(_repository.GetAllByType(service));
         }
     }
 }

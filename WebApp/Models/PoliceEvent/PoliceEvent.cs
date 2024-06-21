@@ -13,7 +13,7 @@ namespace WebApp.Models.PoliceEvent
         public string Name { get; set; }
         public string Summary { get; set; }
         public string Url { get; set; }
-        public EventType Type { get; set; }
+        public string Type { get; set; }
         public Location Location { get; set; }
 
         

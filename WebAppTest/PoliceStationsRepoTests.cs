@@ -62,16 +62,6 @@ namespace WebAppTest
         }
 
         [Test]
-        public void TestGetServiceType()
-        {
-            string displayName = "Provisoriskt pass";
-            ServiceType type = _Repository.GetType(displayName);
-
-            Assert.AreEqual(type, ServiceType.Provisoriskt_pass);
-
-        }
-
-        [Test]
         public void CreatePoliceStationsTest()
         {
             _Repository.CreateValues(doc);

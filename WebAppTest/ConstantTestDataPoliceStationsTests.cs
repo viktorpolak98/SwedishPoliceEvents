@@ -6,14 +6,12 @@ using WebApp.Models.PoliceStation;
 using WebApp.Models.Shared;
 using System.IO;
 using System.Collections.Generic;
-using WebApp.HelperFunctions;
 
 namespace WebAppTest
 {
     public class ConstantTestDataPoliceStationsTests
     {
-        private readonly List<PoliceStation> PoliceStations = new();
-        private Dictionary<string, ServiceType> ServiceTypeDict;
+        private readonly List<PoliceStation> PoliceStations = [];
         private PoliceStationsRepository _Repository;
 
         [SetUp]
@@ -32,8 +30,6 @@ namespace WebAppTest
 
             string json;
 
-            ServiceTypeDict = EnumValuesHelper.ToDictionaryDisplayNameAsKey<ServiceType>();
-
             string directory = Environment.CurrentDirectory;
             directory = Directory.GetParent(directory).Parent.Parent.FullName;
 
@@ -47,10 +43,10 @@ namespace WebAppTest
             foreach (JsonElement Element in doc.RootElement.EnumerateArray())
             {
 
-                List<ServiceType> serviceTypes = new();
+                List<string> serviceTypes = [];
                 foreach (JsonElement service in Element.GetProperty("services").EnumerateArray())
                 {
-                    serviceTypes.Add(ServiceTypeDict[service.GetProperty("name").ToString()]);
+                    serviceTypes.Add(service.GetProperty("name").ToString());
                 }
 
                 string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
@@ -131,7 +127,8 @@ namespace WebAppTest
         [Test]
         public void TestGetPoliceStationsFromType()
         {
-            List<PoliceStation> stationsOfSpecificType = _Repository.GetAllByType(ServiceType.Delgivning);
+            string type = "Delgivning";
+            List<PoliceStation> stationsOfSpecificType = _Repository.GetAllByType(type);
 
             Assert.NotNull(stationsOfSpecificType);
             Assert.AreEqual(28, stationsOfSpecificType.Count);
@@ -139,25 +136,7 @@ namespace WebAppTest
 
             foreach (PoliceStation e in stationsOfSpecificType)
             {
-                Assert.True(e.Services.Contains(ServiceType.Delgivning));
-            }
-
-            Assert.Pass();
-
-        }
-
-        [Test]
-        public void TestGetPoliceStationsFromTypeDisplayName()
-        {
-            string displayName = "Provisoriskt pass";
-            List<PoliceStation> list = _Repository.GetAllByDisplayName(displayName);
-
-            Assert.NotNull(list);
-            Assert.AreEqual(12, list.Count);
-
-            foreach (PoliceStation e in list)
-            {
-                Assert.True(e.Services.Contains(ServiceType.Provisoriskt_pass));
+                Assert.True(e.Services.Contains(type));
             }
 
             Assert.Pass();
