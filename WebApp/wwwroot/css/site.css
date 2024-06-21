@@ -21,10 +21,18 @@ a.navbar-brand {
     z-index: 100;
 }
 
+.table-header {
+    width: 100%;
+    padding: 0 1rem 0 0.5rem;
+}
+
 .leaderboard-header {
     text-align: center;
+    color: black;
     font-size: larger;
     background-color: lightgrey;
+    width: 100%;
+    caption-side: top;
 }
 
 @media screen and (max-width: 1024px) {
