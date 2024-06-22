@@ -12,6 +12,7 @@
 }
 
 const mapOfEvents = new Map();
+const mapForLeaderboard = new Map();
 
 async function getEventsByLocation() {
 
@@ -38,7 +39,8 @@ async function getEventsByLocation() {
                 `${item.location.gpsLocation.latitude},${item.location.gpsLocation.longitude}`
             );
             
-            addEventToMap(event); 
+            addEventToMap(event);
+            addTypeToLeaderboardMap(item.type);
         });
 
         addItemsToGrid();
@@ -50,6 +52,15 @@ async function getEventsByLocation() {
 
 function addEventToMap(ListEvent) {
     mapOfEvents.set(ListEvent.id, ListEvent)
+}
+
+function addTypeToLeaderboardMap(type) {
+    if (mapForLeaderboard.has(type)) {
+        mapForLeaderboard.set(type, mapForLeaderboard.get(type) + 1);
+        return;
+    } 
+
+    mapForLeaderboard.set(type, 1);
 }
 
 function addItemsToGrid() {
