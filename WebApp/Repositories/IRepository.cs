@@ -24,8 +24,5 @@ namespace WebApp.Repositories
         public void CreateCacheEntry(T key, int time);
 
         public bool CacheIsFull();
-
-        public Dictionary<string, int> GetTypeLeaderboard();
-        public Dictionary<string, int> GetLocationLeaderboard();
     }
 }

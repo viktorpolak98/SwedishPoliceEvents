@@ -18,7 +18,6 @@ namespace WebApp.Repositories
         private readonly List<PoliceStation> Stations = [];
         private readonly SemaphoreSlim RequestSemaphore = new (1, 1);
         private readonly MemoryCache MemCache = new (new MemoryCacheOptions());
-        public Leaderboard Leaderboard { get; }
         private int NumberOfStations { get; set; } = -1; //-1 = no value exists
 
         /// <summary>
@@ -28,12 +27,11 @@ namespace WebApp.Repositories
         public PoliceStationsRepository(List<PoliceStation> Stations)
         {
             this.Stations = Stations;
-            Leaderboard = new Leaderboard();
         }
 
         public PoliceStationsRepository()
         {
-            Leaderboard = new Leaderboard();
+            //Empty constructor
         }
 
         /// <summary>
@@ -207,16 +205,6 @@ namespace WebApp.Repositories
                 listStations.Add(pStation);
             }
             return listStations;
-        }
-
-        public Dictionary<string, int> GetTypeLeaderboard()
-        {
-            return Leaderboard.NumberOfTypeDict;
-        }
-
-        public Dictionary<string, int> GetLocationLeaderboard()
-        {
-            return Leaderboard.NumberOfLocationDict;
         }
     }
 }

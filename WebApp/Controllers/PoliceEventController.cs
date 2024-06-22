@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Diagnostics;
 using System.Text.Json;
 using WebApp.Models.PoliceEvent;
 using WebApp.Repositories;
@@ -61,30 +59,6 @@ namespace WebApp.Controllers
             }
 
             return Ok(_repository.GetAllByType(type));
-        }
-
-        [HttpGet]
-        [Route("GetTypeLeaderboard")]
-        public IActionResult GetTypeLeaderboard()
-        {
-            if (!_repository.CacheIsFull())
-            {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
-            }
-
-            return Ok(_repository.GetTypeLeaderboard());
-        }
-
-        [HttpGet]
-        [Route("GetLocationLeaderboard")]
-        public IActionResult GetLocationLeaderboard()
-        {
-            if (!_repository.CacheIsFull())
-            {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
-            }
-
-            return Ok(_repository.GetLocationLeaderboard());
         }
     }
 }

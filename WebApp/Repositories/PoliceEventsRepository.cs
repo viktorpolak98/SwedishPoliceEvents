@@ -16,7 +16,6 @@ namespace WebApp.Repositories
     public class PoliceEventsRepository : IRepository<PoliceEvent>
     {
         private readonly List<PoliceEvent> Events = [];
-        public Leaderboard Leaderboard { get; }
         private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
 
         private readonly SemaphoreSlim RequestSemaphore = new(1,1);
@@ -28,13 +27,12 @@ namespace WebApp.Repositories
         public PoliceEventsRepository(List<PoliceEvent> Events)
         {
             this.Events = Events;
-            Leaderboard = new Leaderboard();
         }
 
 
         public PoliceEventsRepository()
         {
-            Leaderboard = new Leaderboard();
+            //Empty constructor
         }
 
         /// <summary>
@@ -72,7 +70,6 @@ namespace WebApp.Repositories
         private void BeforeCreateEvents()
         {
             Events.Clear();
-            Leaderboard.ClearDictionaries();
 
         }
 
@@ -118,9 +115,6 @@ namespace WebApp.Repositories
 
                 Events.Add(Event);
                 CreateCacheEntry(Event);
-
-                Leaderboard.AddCountEvent(eventType);
-                Leaderboard.AddCountEventLocation(locationName);
             }
 
             events.Dispose();
@@ -229,16 +223,6 @@ namespace WebApp.Repositories
             }
 
             return listEvents;
-        }
-
-        public Dictionary<string, int> GetTypeLeaderboard()
-        {
-            return Leaderboard.NumberOfTypeDict;
-        }
-
-        public Dictionary<string, int> GetLocationLeaderboard()
-        {
-            return Leaderboard.NumberOfLocationDict;
         }
     }
 }
