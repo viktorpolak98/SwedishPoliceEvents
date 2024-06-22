@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WebApp.Models.PoliceEvent;
 
-namespace WebApp.Logic
+namespace WebApp.Models.Shared
 {
     /// <summary>
     /// Leaderboard class to calculate the most occuring types of events and most frequent location

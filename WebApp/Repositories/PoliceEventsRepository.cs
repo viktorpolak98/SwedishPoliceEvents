@@ -5,7 +5,6 @@ using WebApp.Models.PoliceEvent;
 using WebApp.Models.Shared;
 using System.Text.Json;
 using System.Globalization;
-using WebApp.Logic;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
 
