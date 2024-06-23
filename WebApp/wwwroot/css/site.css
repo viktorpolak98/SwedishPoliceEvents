@@ -16,7 +16,7 @@ a.navbar-brand {
     top: 0;
     right: 0;
     height: 30%;
-    width: 20%;
+    width: 20rem;
     padding: 0px;
     z-index: 100;
 }
@@ -176,6 +176,7 @@ body {
     height: 9em;
     background-color: aquamarine; /* Temporary color to display */
     flex-basis: 100%;
+    border: 1px solid black;
 }
 
 .upper-grid-item {
@@ -188,7 +189,7 @@ body {
 
 .lower-grid-item {
     text-align: center;
-    height: 7em;
+    height: 6.5em;
     background-color: darkgreen; /* Temporary color to display */
     padding: 3px; 
 }
