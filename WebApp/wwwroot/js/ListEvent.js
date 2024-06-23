@@ -26,6 +26,7 @@ async function getEventsByLocation() {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        mapOfEvents.clear();
         const data = await response.json();
         data.forEach(item => {
             const event = new ListEvent(
