@@ -89,29 +89,6 @@ function addItemsToGrid() {
 }
 
 function clickItem(id) {
-    const flexbox = document.getElementById("flexcontainer");
-
-    if (!document.contains(document.getElementById("detail-view"))) {
-        let details = document.createElement("div");
-        details.className = "detail-view";
-        details.id = "detail-view";
-        flexbox.appendChild(details);
-
-        const closeButton = document.createElement('button');
-
-        closeButton.className = 'close-button';
-        closeButton.setAttribute('aria-label', 'Close alert');
-        closeButton.setAttribute('type', 'button');
-        closeButton.setAttribute('data-close', '');
-        closeButton.id = "close-detail-view";
-
-        const span = document.createElement('span');
-
-        span.setAttribute('aria-hidden', 'true');
-        span.innerHTML = '&times;';
-
-        closeButton.appendChild(span);
-    }
 
     const details = document.getElementById("detail-view");
     const closeButton = document.getElementById("close-detail-view");
@@ -123,4 +100,11 @@ function clickItem(id) {
     ${ListEvent.type}
     ${ListEvent.locationName} ${ListEvent.locationGps} 
     `
+
+    details.hidden = false; 
+}
+
+function detailsClose() {
+    const details = document.getElementById("detail-view");
+    details.hidden = true;
 }
