@@ -27,6 +27,7 @@ async function getEventsByLocation() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         mapOfEvents.clear();
+        mapForLeaderboard.clear();
         const data = await response.json();
         data.forEach(item => {
             const event = new ListEvent(
@@ -66,7 +67,7 @@ function addTypeToLeaderboardMap(type) {
 
 function addItemsToGrid() {
     const gridBox = document.getElementById("gridbox");
-    gridBox.innerHTML = "";
+    gridBox.innerHTML = ``;
 
     mapOfEvents.forEach((event, id) => { //Value, Key for some dumb reason 
         const container = document.createElement("div");
@@ -95,7 +96,7 @@ function clickItem(id) {
     const detailsChild = document.getElementById("detail-view-child");
     const detailsParent = document.getElementById("detail-view");
 
-    ListEvent = mapOfEvents.get(id);
+    const ListEvent = mapOfEvents.get(id);
 
     console.log(id);
 
@@ -105,11 +106,10 @@ function clickItem(id) {
     ${ListEvent.type}
     ${ListEvent.locationName} ${ListEvent.locationGps} 
     `
-
-    detailsParent.style.visibility = "visible";
+    detailsParent.classList.toggle('show');
 }
 
 function closeDetails() {
     const details = document.getElementById("detail-view");
-    details.style.visibility = "hidden";
+    details.classList.toggle('show');
 }

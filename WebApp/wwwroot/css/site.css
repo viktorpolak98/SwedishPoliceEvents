@@ -209,11 +209,20 @@ body {
     padding: 0px;
     visibility: hidden;
     font-size: 1.5rem;
-
     background-color: white;
 }
 
 .detail-view-child {
     visibility: inherit;
     font-size: 1rem;
+}
+
+.detail-view.show {
+    visibility: visible;
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
