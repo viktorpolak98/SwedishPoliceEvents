@@ -37,7 +37,7 @@ async function getEventsByLocation() {
                 item.url,
                 item.type, 
                 item.location.name, 
-                `${item.location.gpsLocation.latitude},${item.location.gpsLocation.longitude}`
+                `${item.location.gpsLocation.latitude}, ${item.location.gpsLocation.longitude}`
             );
             
             addEventToMap(event);
@@ -83,28 +83,33 @@ function addItemsToGrid() {
         container.appendChild(upperComponent);
         container.appendChild(lowerComponent);
 
-       // container.onclick = clickItem(upperComponent.textContent);
         gridBox.appendChild(container);
+        container.addEventListener("click", function () {
+            clickItem(id);
+        }, false);
     });
 }
 
 function clickItem(id) {
 
-    const details = document.getElementById("detail-view");
-    const closeButton = document.getElementById("close-detail-view");
+    const detailsChild = document.getElementById("detail-view-child");
+    const detailsParent = document.getElementById("detail-view");
+
     ListEvent = mapOfEvents.get(id);
 
-    details.innerHTML = `${ListEvent.id} ${closeButton}
+    console.log(id);
+
+    detailsChild.innerHTML = `${ListEvent.id}
     ${ListEvent.eventname} 
     ${ListEvent.summary}
     ${ListEvent.type}
     ${ListEvent.locationName} ${ListEvent.locationGps} 
     `
 
-    details.hidden = false; 
+    detailsParent.style.visibility = "visible";
 }
 
-function detailsClose() {
+function closeDetails() {
     const details = document.getElementById("detail-view");
-    details.hidden = true;
+    details.style.visibility = "hidden";
 }

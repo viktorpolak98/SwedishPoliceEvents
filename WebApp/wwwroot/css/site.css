@@ -35,7 +35,7 @@ a.navbar-brand {
     caption-side: top;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
     .leaderboard {
         display: none;
     }
@@ -73,18 +73,18 @@ a {
     border-color: black;
 }
 
-.close-button {
+.close-detail-button {
     position: absolute; 
     top: 0;
     right: 0;
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 2rem; 
-    margin: 0px;  
+    font-size: 1.5rem; 
+    margin: 0px;
 }
 
-.close-button:focus {
+.close-detail-button:focus {
     background: none;
     border: none;
     outline: none;
@@ -196,7 +196,7 @@ body {
 
 .detail-view {
     margin: auto;
-    text-align: left;
+    text-align: center;
     display: inline-block;
     float: right;
     border: 1px solid black;
@@ -208,4 +208,12 @@ body {
     width: 40%;
     padding: 0px;
     visibility: hidden;
+    font-size: 1.5rem;
+
+    background-color: white;
+}
+
+.detail-view-child {
+    visibility: inherit;
+    font-size: 1rem;
 }
