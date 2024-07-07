@@ -174,6 +174,7 @@ body {
 .grid-item-container {
     margin: 15px;
     height: 9em;
+    width: 14.5em;
     background-color: aquamarine; /* Temporary color to display */
     flex-basis: 100%;
     border: 1px solid black;
