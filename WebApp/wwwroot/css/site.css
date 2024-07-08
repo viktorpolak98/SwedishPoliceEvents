@@ -35,7 +35,7 @@ a.navbar-brand {
     caption-side: top;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1199px) {
     .leaderboard {
         display: none;
     }
@@ -53,14 +53,22 @@ a {
 }
 
 .text-input {
-    
+
 }
 
 .search-button {
     background-color: white;
     padding: 2px 25px 2px 25px; 
+    margin: 0 12em 0 0; 
     border-radius: 2px;
     border: 1px solid grey;
+
+}
+
+@media screen and (max-width: 1199px) {
+    .search-button {
+        margin: 0 1em 0 0;
+    }
 }
 
 .search-button:hover {
@@ -165,9 +173,10 @@ body {
     padding: 0rem 0rem 4rem 0rem; 
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 991px) {
     .gridbox {
         grid-template-columns: repeat(2, 1fr);
+
     }
 }
 

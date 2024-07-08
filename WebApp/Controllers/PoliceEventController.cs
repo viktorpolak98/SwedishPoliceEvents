@@ -38,7 +38,7 @@ namespace WebApp.Controllers
         [Route("GetPoliceEventsByLocation/{location}")]
         public IActionResult GetPoliceEventsByLocation(string location)
         {
-            location = location.Trim(); //Remove white spaces 
+            location = location.Trim(); 
             location = char.ToUpper(location[0]) + location[1..]; //Capitalize first letter 
 
             if (!_repository.CacheIsFull())
