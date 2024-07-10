@@ -10,7 +10,7 @@ using System.IO;
 
 namespace WebAppTest
 {
-    public class PoliceEventsRepoTests
+    class PoliceEventsRepoTests : BaseTestFunctions
     {
         private PoliceEventsRepository _Repository;
         private JsonDocument doc;
@@ -19,19 +19,6 @@ namespace WebAppTest
         public void Setup()
         {
             _Repository = new PoliceEventsRepository();
-            
-            string json;
-            string directory = Environment.CurrentDirectory;
-            directory = Directory.GetParent(directory).Parent.Parent.FullName;
-
-
-            using (StreamReader reader = new(directory + "\\TestData\\TestEvents.json"))
-            {
-                json = reader.ReadToEnd();
-            }
-
-            doc = JsonDocument.Parse(json);
-
         }
 
         [TearDown]
@@ -44,6 +31,7 @@ namespace WebAppTest
         [Test]
         public async Task MultiThreadCreateValuesTest()
         {
+            doc = CreateTestDataDocument("TestEvents.json");
 
             _ = Task.Run(() => _Repository.CreateValues(doc));
             await Task.Run(() => _Repository.CreateValues(doc));
@@ -55,6 +43,7 @@ namespace WebAppTest
         [Test]
         public void ValidateCachedItemsTest()
         {
+            doc = CreateTestDataDocument("TestEvents.json");
 
             _Repository.CreateValues(doc);
             List<PoliceEvent> validateEventsList = _Repository.ValidateEntries();
@@ -80,39 +69,34 @@ namespace WebAppTest
         [Test]
         public void CreatePoliceEvent()
         {
+            doc = CreateTestDataDocument("SingleEvent.json");
+
             Assert.NotNull(doc);
 
-            JsonElement Element = doc.RootElement[0];
+            DateTime date = _Repository.DateConverter("2022-11-30 13:30:00 +01:00");
 
-            string[] gps = Element.GetProperty("location").GetProperty("gps").ToString().Split(",");
+            _Repository.CreateValues(doc);
 
-
-            PoliceEvent policeEvent = new()
-            {
-                Id = Element.GetProperty("id").ToString(),
-                Date = _Repository.DateConverter(Element.GetProperty("datetime").ToString()),
-                Name = Element.GetProperty("name").ToString(),
-                Summary = Element.GetProperty("summary").ToString(),
-                Url = Element.GetProperty("url").ToString(),
-                Type = Element.GetProperty("type").ToString(),
-                Location = new Location
-                {
-                    Name = Element.GetProperty("location").GetProperty("name").ToString(),
-                    GpsLocation = new GPSLocation
-                    {
-                        Latitude = gps[0],
-                        Longitude = gps[1]
-                    }
-                }
-            };
+            PoliceEvent policeEvent = _Repository.GetAll()[0];
 
             Assert.NotNull(policeEvent);
+
+            Assert.AreEqual("387116", policeEvent.Id);
+            Assert.AreEqual(date, policeEvent.Date);
+            Assert.AreEqual("30 november 13:29, Rattfylleri, Eskilstuna", policeEvent.Name);
+            Assert.AreEqual("Misstänkt drograttfylla vid kontroll i Eskilstuna.", policeEvent.Summary);
+            Assert.AreEqual("/aktuellt/handelser/2022/november/30/30-november-1329-rattfylleri-eskilstuna/", policeEvent.Url);
+            Assert.AreEqual("Rattfylleri", policeEvent.Type);
+            Assert.AreEqual("Eskilstuna", policeEvent.Location.Name);
+            Assert.AreEqual("59.371249,16.509805", $"{policeEvent.Location.GpsLocation.Latitude},{policeEvent.Location.GpsLocation.Longitude}");
+
             Assert.Pass();
         }
 
         [Test]
         public void CreatePoliceEventsTest()
         {
+            doc = CreateTestDataDocument("TestEvents.json");
             _Repository.CreateValues(doc);
 
             Assert.AreEqual(500, _Repository.GetCount());

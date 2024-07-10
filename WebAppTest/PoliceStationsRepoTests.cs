@@ -9,7 +9,7 @@ using System.IO;
 
 namespace WebAppTest
 {
-    public class PoliceStationsRepoTests
+    class PoliceStationsRepoTests : BaseTestFunctions
     {
         private PoliceStationsRepository _Repository;
         private JsonDocument doc;
@@ -18,17 +18,8 @@ namespace WebAppTest
         public void Setup()
         {
             _Repository = new PoliceStationsRepository();
-            string json;
-            string directory = Environment.CurrentDirectory;
-            directory = Directory.GetParent(directory).Parent.Parent.FullName;
 
-
-            using (StreamReader reader = new(directory + "\\TestData\\TestPoliceStations.json"))
-            {
-                json = reader.ReadToEnd();
-            }
-
-            doc = JsonDocument.Parse(json);
+            doc = CreateTestDataDocument("TestPoliceStations.json");
 
         }
 

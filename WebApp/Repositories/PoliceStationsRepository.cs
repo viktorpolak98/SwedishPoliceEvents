@@ -62,7 +62,7 @@ namespace WebApp.Repositories
             RequestSemaphore.Release();
         }
 
-        public void CreateStations(JsonDocument doc)
+        private void CreateStations(JsonDocument doc)
         {
 
             if (doc is null)
