@@ -94,7 +94,7 @@ namespace WebAppTest
         }
 
         [Test]
-        public void CreatePoliceEventsTest()
+        public void CreatedPoliceEventsAreCachedTest()
         {
             doc = CreateTestDataDocument("TestEvents.json");
             _Repository.CreateValues(doc);
