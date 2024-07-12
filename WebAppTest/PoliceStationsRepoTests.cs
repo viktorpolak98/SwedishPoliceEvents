@@ -71,7 +71,7 @@ namespace WebAppTest
             Assert.AreEqual("Alingsås", station.Name);
             Assert.AreEqual("https://polisen.se/om-polisen/kontakt/polisstationer/vastra-gotaland/alingsas/", station.Url);
             Assert.AreEqual("N Strömgatan 8, Alingsås", station.Location.Name);
-            Assert.AreEqual("57.930105,12.529608", $"{station.Location.GpsLocation.Latitude},{station.Location.GpsLocation.Longitude}");
+            Assert.AreEqual("57.930105,12.529608", station.Location.GpsLocation.ToString());
             Assert.AreEqual("Anmälan", station.Services[0]);
             Assert.AreEqual("Vapen", station.Services[5]);
         }

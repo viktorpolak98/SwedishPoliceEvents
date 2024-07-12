@@ -88,7 +88,7 @@ namespace WebAppTest
             Assert.AreEqual("/aktuellt/handelser/2022/november/30/30-november-1329-rattfylleri-eskilstuna/", policeEvent.Url);
             Assert.AreEqual("Rattfylleri", policeEvent.Type);
             Assert.AreEqual("Eskilstuna", policeEvent.Location.Name);
-            Assert.AreEqual("59.371249,16.509805", $"{policeEvent.Location.GpsLocation.Latitude},{policeEvent.Location.GpsLocation.Longitude}");
+            Assert.AreEqual("59.371249,16.509805", policeEvent.Location.GpsLocation.ToString());
 
             Assert.Pass();
         }
