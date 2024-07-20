@@ -38,7 +38,7 @@ async function getEventsByLocation() {
                 item.url,
                 item.type, 
                 item.location.name, 
-                `${item.location.gpsLocation.latitude}, ${item.location.gpsLocation.longitude}`
+                `${item.location.gpsLocation.latitude},${item.location.gpsLocation.longitude}`
             );
             
             addEventToMap(event);
@@ -100,11 +100,18 @@ function clickItem(id) {
 
     console.log(id);
 
-    detailsChild.innerHTML = `${ListEvent.id}
-    ${ListEvent.eventname} 
-    ${ListEvent.summary}
-    ${ListEvent.type}
-    ${ListEvent.locationName} ${ListEvent.locationGps} 
+    detailsChild.innerHTML = `
+    <p> 
+        <b>ID:</b> ${ListEvent.id} 
+        <br /> 
+        <b>Namn på Händelse:</b> ${ListEvent.eventname} 
+        <br /> 
+        <b>Sammanfattning:</b> ${ListEvent.summary}
+        <br /> 
+        <b>Kategori:</b> ${ListEvent.type}
+        <br /> 
+        <b>Plats:</b> ${ListEvent.locationName}: ${ListEvent.locationGps}
+    </p>
     `
     detailsParent.classList.toggle('show');
 }
