@@ -98,19 +98,17 @@ function clickItem(id) {
 
     const ListEvent = mapOfEvents.get(id);
 
-    console.log(id);
-
     detailsChild.innerHTML = `
     <p> 
         <b>ID:</b> ${ListEvent.id} 
         <br /> 
-        <b>Namn på Händelse:</b> ${ListEvent.eventname} 
+        <b>Name of event:</b> ${ListEvent.eventname} 
         <br /> 
-        <b>Sammanfattning:</b> ${ListEvent.summary}
+        <b>Summary:</b> ${ListEvent.summary}
         <br /> 
-        <b>Kategori:</b> ${ListEvent.type}
+        <b>Category:</b> ${ListEvent.type}
         <br /> 
-        <b>Plats:</b> ${ListEvent.locationName}: ${ListEvent.locationGps}
+        <b>Location:</b> ${ListEvent.locationName}: ${ListEvent.locationGps}
     </p>
     `
     detailsParent.classList.toggle('show');
