@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using System; 
 using WebApp.Models.PoliceEvent;
 using WebApp.Repositories;
 using WebApp.Services;
@@ -52,7 +51,7 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Route("GetPoliceEventsByType/{type}")]
-        public IActionResult GetPoliceEventsByType(string type)
+        public IActionResult GetPoliceEventsByDisplayName(string type)
         {
             if (!_repository.CacheIsFull())
             {
@@ -61,22 +60,5 @@ namespace WebApp.Controllers
 
             return Ok(_repository.GetAllByType(type));
         }
-
-        [HttpGet]
-        [Route("GetPoliceEventsByTypesSortedAscending/{types}")]
-        public IActionResult GetPoliceEventsByTypeSortedAscending(string[] types)
-        {
-            //TODO
-            throw new NotImplementedException();
-        }
-
-        [HttpGet]
-        [Route("GetPoliceEventsByTypesSortedDescending/{types}")]
-        public IActionResult GetPoliceEventsByTypeSortedDescending(string[] types)
-        {
-            //TODO 
-            throw new NotImplementedException();
-        }
-
     }
 }
