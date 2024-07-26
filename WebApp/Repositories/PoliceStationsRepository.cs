@@ -56,10 +56,16 @@ namespace WebApp.Repositories
                 RequestSemaphore.Release();
                 return;
             }
-
-            CreateStations(doc);
-
-            RequestSemaphore.Release();
+            
+            try
+            {
+                CreateStations(doc);
+            }
+            finally 
+            {   
+                //Prevent deadlock
+                RequestSemaphore.Release(); 
+            }
         }
 
         private void CreateStations(JsonDocument doc)

@@ -58,10 +58,16 @@ namespace WebApp.Repositories
                 RequestSemaphore.Release();
                 return;
             }
-
-            CreateEvents(events);
-
-            RequestSemaphore.Release();
+            
+            //Prevent deadlock
+            try
+            {
+                CreateEvents(events);
+            }
+            finally
+            {
+                RequestSemaphore.Release();
+            }
         }
 
         /// <summary>
