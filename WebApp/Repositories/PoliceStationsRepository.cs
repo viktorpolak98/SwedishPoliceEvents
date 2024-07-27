@@ -56,14 +56,14 @@ namespace WebApp.Repositories
                 RequestSemaphore.Release();
                 return;
             }
-            
+
+            //Prevent deadlock
             try
             {
                 CreateStations(doc);
             }
             finally 
             {   
-                //Prevent deadlock
                 RequestSemaphore.Release(); 
             }
         }

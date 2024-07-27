@@ -1,4 +1,8 @@
-﻿class ListEvent {
+﻿
+import * as leaderboard from "./Leaderboard";
+
+
+class ListEvent {
     constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
         this.id = id;
         this.datetime = datetime;
@@ -12,7 +16,6 @@
 }
 
 const mapOfEvents = new Map();
-const mapForLeaderboard = new Map();
 
 async function getEventsByLocation() {
 
@@ -42,7 +45,7 @@ async function getEventsByLocation() {
             );
             
             addEventToMap(event);
-            addTypeToLeaderboardMap(item.type);
+            leaderboard.addTypeToLeaderboardMap(item.type);
         });
 
         addItemsToGrid();
@@ -56,14 +59,6 @@ function addEventToMap(ListEvent) {
     mapOfEvents.set(ListEvent.id, ListEvent)
 }
 
-function addTypeToLeaderboardMap(type) {
-    if (mapForLeaderboard.has(type)) {
-        mapForLeaderboard.set(type, mapForLeaderboard.get(type) + 1);
-        return;
-    } 
-
-    mapForLeaderboard.set(type, 1);
-}
 
 function addItemsToGrid() {
     const gridBox = document.getElementById("gridbox");
