@@ -19,6 +19,7 @@ namespace WebApp.Repositories
         private readonly MemoryCache MemCache = new(new MemoryCacheOptions());
 
         private readonly SemaphoreSlim RequestSemaphore = new(1,1);
+        private const string BaseUrl = "https://polisen.se";
 
         /// <summary>
         /// For testing purposes
@@ -106,7 +107,7 @@ namespace WebApp.Repositories
                     Date = DateConverter(Element.GetProperty("datetime").ToString()),
                     Name = Element.GetProperty("name").ToString(),
                     Summary = Element.GetProperty("summary").ToString(),
-                    Url = Element.GetProperty("url").ToString(),
+                    Url = $"{BaseUrl}{Element.GetProperty("url")}",
                     Type = eventType,
                     Location = new Location
                     {

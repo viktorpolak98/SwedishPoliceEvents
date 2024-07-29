@@ -1,8 +1,4 @@
-﻿
-import * as leaderboard from "./Leaderboard";
-
-
-class ListEvent {
+﻿class ListEvent {
     constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
         this.id = id;
         this.datetime = datetime;
@@ -30,7 +26,6 @@ async function getEventsByLocation() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         mapOfEvents.clear();
-        mapForLeaderboard.clear();
         const data = await response.json();
         data.forEach(item => {
             const event = new ListEvent(
@@ -45,7 +40,6 @@ async function getEventsByLocation() {
             );
             
             addEventToMap(event);
-            leaderboard.addTypeToLeaderboardMap(item.type);
         });
 
         addItemsToGrid();
@@ -92,6 +86,7 @@ function clickItem(id) {
     const detailsParent = document.getElementById("detail-view");
 
     const ListEvent = mapOfEvents.get(id);
+    console.log(ListEvent.url);
 
     detailsChild.innerHTML = `
     <p> 
@@ -104,6 +99,8 @@ function clickItem(id) {
         <b>Category:</b> ${ListEvent.type}
         <br /> 
         <b>Location:</b> ${ListEvent.locationName}: ${ListEvent.locationGps}
+        <br />
+        <b>Link:</b> <a href="${ListEvent.url}" target="_blank">${ListEvent.url}</a>"
     </p>
     `
     detailsParent.classList.toggle('show');
