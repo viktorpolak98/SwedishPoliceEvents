@@ -11,6 +11,6 @@ class PoliceStation {
 
 const mapOfStations = new Map();
 
-export function addStationToMap(PoliceStation) {
+function addStationToMap(PoliceStation) {
     mapOfStations.set(PoliceStation.id, PoliceStation);
 }

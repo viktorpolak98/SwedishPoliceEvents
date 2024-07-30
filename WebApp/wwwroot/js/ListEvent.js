@@ -1,4 +1,6 @@
-﻿class ListEvent {
+﻿import { clearLeaderboardMap, addTypeToLeaderboardMap, addItemsToLeaderboard } from "../js/Leaderboard.js";
+
+class ListEvent {
     constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
         this.id = id;
         this.datetime = datetime;
@@ -26,6 +28,7 @@ async function getEventsByLocation() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         mapOfEvents.clear();
+        clearLeaderboardMap();
         const data = await response.json();
         data.forEach(item => {
             const event = new ListEvent(
@@ -40,9 +43,11 @@ async function getEventsByLocation() {
             );
             
             addEventToMap(event);
+            addTypeToLeaderboardMap(item.type);
         });
 
         addItemsToGrid();
+        addItemsToLeaderboard();
 
     } catch (error) {
         console.error('Error fetching police events:', error);
@@ -110,3 +115,7 @@ function closeDetails() {
     const details = document.getElementById("detail-view");
     details.classList.toggle('show');
 }
+
+window.getEventsByLocation = getEventsByLocation;
+window.clickItem = clickItem;
+window.closeDetails = closeDetails;

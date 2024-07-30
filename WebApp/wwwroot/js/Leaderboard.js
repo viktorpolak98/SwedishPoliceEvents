@@ -4,12 +4,12 @@
 const mapForLeaderboard = new Map();
 
 
-function clearLeaderboardMap() {
+export function clearLeaderboardMap() {
     mapForLeaderboard.clear();
 }
 
 
-function addTypeToLeaderboardMap(type) {
+export function addTypeToLeaderboardMap(type) {
     if (mapForLeaderboard.has(type)) {
         mapForLeaderboard.set(type, mapForLeaderboard.get(type) + 1);
         return;
@@ -18,11 +18,12 @@ function addTypeToLeaderboardMap(type) {
     mapForLeaderboard.set(type, 1);
 }
 
-function addItemsToLeaderboard() {
+export function addItemsToLeaderboard() {
     
-    const tableRef = document.getElementById(leaderboard);
+    const tableRef = document.getElementById("leaderboard");
 
-    mapForLeaderboard.forEach(value, key => {
+    mapForLeaderboard.forEach((value, key) => {
+        
         const newRow = tableRef.insertRow(-1);
         
         const typeCell = newRow.insertCell(0);
