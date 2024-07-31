@@ -11,20 +11,26 @@ a.navbar-brand {
     text-align: left;
     display: inline-block;
     border: 1px solid black;
-    margin: 4.59rem 1rem 0rem 0rem;
+    margin: 4.59em 1em 0em 0em;
     position: fixed;
     top: 0;
     right: 0;
-    height: 30%;
-    width: 20rem;
+    height: auto;
+    min-height: 30%;
+    width: 20em;
     padding: 0px;
     z-index: 100;
 }
 
 .table-header {
     width: 100%;
-    padding: 0 1rem 0 0.5rem;
+    padding: 0 1em 0 0.5em;
 }
+
+td {
+    padding: 0 1em 0 0.5em;
+}
+
 
 .leaderboard-header {
     text-align: center;

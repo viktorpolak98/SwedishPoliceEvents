@@ -19,8 +19,8 @@ export function addTypeToLeaderboardMap(type) {
 }
 
 export function addItemsToLeaderboard() {
-    
-    const tableRef = document.getElementById("leaderboard");
+
+    const tableRef = document.getElementById("leaderboard").getElementsByTagName('tbody')[0];
 
     mapForLeaderboard.forEach((value, key) => {
         
