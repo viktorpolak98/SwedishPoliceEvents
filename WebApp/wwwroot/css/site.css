@@ -15,7 +15,7 @@ a.navbar-brand {
     position: fixed;
     top: 0;
     right: 0;
-    height: auto;
+    height: auto; 
     min-height: 30%;
     width: 20em;
     padding: 0px;
@@ -27,10 +27,9 @@ a.navbar-brand {
     padding: 0 1em 0 0.5em;
 }
 
-td {
+.table-body td {
     padding: 0 1em 0 0.5em;
 }
-
 
 .leaderboard-header {
     text-align: center;
@@ -253,5 +252,5 @@ body {
 
 @keyframes fadeIn {
     from {opacity: 0;}
-    to {opacity: 1;}
+    to {opacity: 0.96;}
 }
