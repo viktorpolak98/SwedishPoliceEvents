@@ -83,7 +83,7 @@ class PoliceEventsRepoTests : BaseTestFunctions
         Assert.AreEqual(date, policeEvent.Date);
         Assert.AreEqual("30 november 13:29, Rattfylleri, Eskilstuna", policeEvent.Name);
         Assert.AreEqual("Misstänkt drograttfylla vid kontroll i Eskilstuna.", policeEvent.Summary);
-        Assert.AreEqual("/aktuellt/handelser/2022/november/30/30-november-1329-rattfylleri-eskilstuna/", policeEvent.Url);
+        Assert.AreEqual("https://polisen.se/aktuellt/handelser/2022/november/30/30-november-1329-rattfylleri-eskilstuna/", policeEvent.Url);
         Assert.AreEqual("Rattfylleri", policeEvent.Type);
         Assert.AreEqual("Eskilstuna", policeEvent.Location.Name);
         Assert.AreEqual("59.371249,16.509805", policeEvent.Location.GpsLocation.ToString());
