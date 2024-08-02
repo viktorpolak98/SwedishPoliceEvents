@@ -4,57 +4,56 @@ using WebApp.Models.PoliceStation;
 using WebApp.Repositories;
 using WebApp.Services;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers;
+
+[ApiController]
+[Route("/PoliceStations")]
+public class PoliceStationController : Controller
 {
-    [ApiController]
-    [Route("/PoliceStations")]
-    public class PoliceStationController : Controller
+    private readonly IRepository<PoliceStation> _repository;
+    private readonly IReadData<JsonDocument> _apiCaller;
+    private readonly string path = "policestations/";
+
+#pragma warning disable IDE0290
+    public PoliceStationController(IReadData<JsonDocument> apiCaller, IRepository<PoliceStation> repository)
     {
-        private readonly IRepository<PoliceStation> _repository;
-        private readonly IReadData<JsonDocument> _apiCaller;
-        private readonly string path = "policestations/";
+        _repository = repository;
+        _apiCaller = apiCaller;
+    }
 
-        #pragma warning disable IDE0290
-        public PoliceStationController(IReadData<JsonDocument> apiCaller, IRepository<PoliceStation> repository)
+    [HttpGet]
+    [Route("GetAllPoliceStations")]
+    public IActionResult GetAllPoliceStations()
+    {
+        if (!_repository.CacheIsFull())
         {
-            _repository = repository;
-            _apiCaller = apiCaller;
+            _repository.CreateValues(_apiCaller.ReadData(path).Result);
         }
 
-        [HttpGet]
-        [Route("GetAllPoliceStations")]
-        public IActionResult GetAllPoliceStations()
-        {
-            if (!_repository.CacheIsFull())
-            {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
-            }
+        return Ok(_repository.GetAll());
+    }
 
-            return Ok(_repository.GetAll());
+    [HttpGet]
+    [Route("GetPoliceStationsByLocation")]
+    public IActionResult GetPoliceStationsByLocation(string location)
+    {
+        if (!_repository.CacheIsFull())
+        {
+            _repository.CreateValues(_apiCaller.ReadData(path).Result);
         }
 
-        [HttpGet]
-        [Route("GetPoliceStationsByLocation")]
-        public IActionResult GetPoliceStationsByLocation(string location)
-        {
-            if (!_repository.CacheIsFull())
-            {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
-            }
+        return Ok(_repository.GetAllByLocationName(location));
+    }
 
-            return Ok(_repository.GetAllByLocationName(location));
+    [HttpGet]
+    [Route("GetPoliceStationsByService")]
+    public IActionResult GetPoliceStationsByService(string service)
+    {
+        if (!_repository.CacheIsFull())
+        {
+            _repository.CreateValues(_apiCaller.ReadData(path).Result);
         }
 
-        [HttpGet]
-        [Route("GetPoliceStationsByService")]
-        public IActionResult GetPoliceStationsByService(string service)
-        {
-            if (!_repository.CacheIsFull())
-            {
-                _repository.CreateValues(_apiCaller.ReadData(path).Result);
-            }
-
-            return Ok(_repository.GetAllByType(service));
-        }
+        return Ok(_repository.GetAllByType(service));
     }
 }

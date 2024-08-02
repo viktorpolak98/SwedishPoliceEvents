@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace WebApp.Repositories
+namespace WebApp.Repositories;
+
+public interface IRepository<T> where T : class
 {
-    public interface IRepository<T> where T : class
-    {
-        public List<T> GetAll();
+    public List<T> GetAll();
 
-        public T GetById(string id);
+    public T GetById(string id);
 
-        public List<T> GetAllByType(string type);
+    public List<T> GetAllByType(string type);
 
-        public List<T> GetAllByLatLon(string lat, string lon);
+    public List<T> GetAllByLatLon(string lat, string lon);
 
-        public List<T> GetAllByLocationName(string locationName);
+    public List<T> GetAllByLocationName(string locationName);
 
-        public int GetCount();
+    public int GetCount();
 
-        public void CreateValues(JsonDocument values);
+    public void CreateValues(JsonDocument values);
 
-        public void CreateCacheEntry(T key, int time);
+    public void CreateCacheEntry(T key, int time);
 
-        public bool CacheIsFull();
-    }
+    public bool CacheIsFull();
 }
