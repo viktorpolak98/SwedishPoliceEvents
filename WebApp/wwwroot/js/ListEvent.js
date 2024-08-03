@@ -1,4 +1,4 @@
-﻿import { clearLeaderboardMap, addTypeToLeaderboardMap, addItemsToLeaderboard } from "../js/Leaderboard.js";
+﻿import { addTypeToLeaderboardMap, addItemsToLeaderboard, clearLeaderboard } from "../js/Leaderboard.js";
 
 class ListEvent {
     constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
@@ -28,7 +28,7 @@ async function getEventsByLocation() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         mapOfEvents.clear();
-        clearLeaderboardMap();
+        clearLeaderboard();
         const data = await response.json();
         data.forEach(item => {
             const event = new ListEvent(

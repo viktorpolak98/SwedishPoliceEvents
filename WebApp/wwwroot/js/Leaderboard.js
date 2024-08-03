@@ -4,7 +4,7 @@
 const mapForLeaderboard = new Map();
 
 
-export function clearLeaderboardMap() {
+function clearLeaderboardMap() {
     mapForLeaderboard.clear();
 }
 
@@ -20,7 +20,7 @@ export function addTypeToLeaderboardMap(type) {
 
 export function addItemsToLeaderboard() {
 
-    const tableRef = document.getElementById("leaderboard").getElementsByTagName('tbody')[0];
+    const tableRef = document.getElementById("leaderboard").getElementsByTagName("tbody")[0];
 
     mapForLeaderboard.forEach((value, key) => {
         
@@ -35,4 +35,13 @@ export function addItemsToLeaderboard() {
         const countText = document.createTextNode(value);
         countCell.appendChild(countText);
     });
+}
+
+export function clearLeaderboard() {
+    clearLeaderboardMap();
+    const tableRef = document.getElementById("leaderboard").getElementsByTagName("tbody")[0];
+
+    while (tableRef.rows.length > 0) {
+        tableRef.deleteRow(0);
+    }
 }
