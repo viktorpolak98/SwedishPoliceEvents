@@ -45,3 +45,19 @@ export function clearLeaderboard() {
         tableRef.deleteRow(0);
     }
 }
+
+//Sorts leaderboard table. Since the contents of leaderboard is very small the time complexity won't make a difference.
+//Therefor an algorithm with low space complexity is preferred
+
+export function insertionSortTableDescending() {
+    let table = document.getElementById("leaderboard");
+
+    for (let i = 1; i < table.rows.length - 1; i++) {
+
+        let j = i - 1; 
+        while ((j > 0) && (table.rows[i] > table.rows[j])) {
+            table.rows.parentNode.insertBefore(table.rows[i], table.rows[j]);
+            j--; 
+        }
+    }
+}
