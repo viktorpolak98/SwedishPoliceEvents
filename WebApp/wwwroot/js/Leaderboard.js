@@ -55,7 +55,7 @@ export function insertionSortTableDescending() {
     for (let i = 1; i < table.rows.length - 1; i++) {
 
         let j = i - 1; 
-        while ((j > 0) && (table.rows[i] > table.rows[j])) {
+        while ((j >= 0) && (table.rows[i] > table.rows[j])) {
             table.rows.parentNode.insertBefore(table.rows[i], table.rows[j]);
             j--; 
         }
