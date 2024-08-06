@@ -47,17 +47,20 @@ export function clearLeaderboard() {
 }
 
 //Sorts leaderboard table. Since the contents of leaderboard is very small the time complexity won't make a difference.
-//Therefor an algorithm with low space complexity is preferred
+//Therefor an algorithm with lower space complexity is preferred
 
 export function insertionSortTableDescending() {
     let table = document.getElementById("leaderboard");
+    
 
-    for (let i = 1; i < table.rows.length - 1; i++) {
+    for (let i = 2; i < table.rows.length; i++) {
 
-        let j = i - 1; 
-        while ((j >= 0) && (table.rows[i] > table.rows[j])) {
-            table.rows.parentNode.insertBefore(table.rows[i], table.rows[j]);
-            j--; 
+        let moves = 0;
+        let j = i - 1;
+        while (j > 0 && table.rows[i - moves].getElementsByTagName("TD")[1].innerHTML > table.rows[j].getElementsByTagName("TD")[1].innerHTML) {
+            table.rows[j].parentNode.insertBefore(table.rows[i - moves], table.rows[j]);
+            j--;
+            moves++;
         }
     }
 }
