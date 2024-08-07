@@ -15,7 +15,7 @@ class ListEvent {
 
 const mapOfEvents = new Map();
 
-async function getEventsByLocation() {
+export async function getEventsByLocation() {
 
     const city = document.getElementById("text-input").value;
 
@@ -91,7 +91,6 @@ function clickItem(id) {
     const detailsParent = document.getElementById("detail-view");
 
     const ListEvent = mapOfEvents.get(id);
-    console.log(ListEvent.url);
 
     detailsChild.innerHTML = `
     <p> 
@@ -111,11 +110,7 @@ function clickItem(id) {
     detailsParent.classList.toggle('show');
 }
 
-function closeDetails() {
+export function closeDetails() {
     const details = document.getElementById("detail-view");
     details.classList.toggle('show');
 }
-
-window.getEventsByLocation = getEventsByLocation;
-window.clickItem = clickItem;
-window.closeDetails = closeDetails;

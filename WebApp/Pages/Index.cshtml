@@ -4,10 +4,6 @@
     ViewData["Title"] = "Home page";
 }
 
-
-<script type="module" src="~/js/ListEvent.js"></script>
-
-
 <table class="leaderboard" id="leaderboard">
     <caption class="leaderboard-header">Leaderboard</caption>
     <thead>
@@ -22,7 +18,7 @@
 
 <div class="text-center">
     <input type="text" class="text-input" id="text-input" placeholder="Search for a swedish city"/>
-    <button class="search-button" id="search-button" onclick="getEventsByLocation()">
+    <button class="search-button" id="search-button">
         Search
     </button>
 </div>
@@ -33,7 +29,7 @@
 
 <div class="detail-view" id="detail-view">
     Details
-    <button id="close-detail-button" class="close-detail-button" aria-label="Close alert" type="button" data-close onclick="closeDetails()">
+    <button id="close-detail-button" class="close-detail-button" aria-label="Close alert" type="button" data-close">
         <span aria-hidden="true">&times;</span>
     </button>
     <div class="detail-view-child" id="detail-view-child">
@@ -41,9 +37,17 @@
     </div>
 </div>
 
-<script type="module">
-    import { insertionSortTableDescending } from '../js/Leaderboard.js';
 
-    document.querySelector('#table-header-type').addEventListener('click', insertionSortTableDescending);
-    document.querySelector('#table-header-count').addEventListener('click', insertionSortTableDescending);
+<script type="module">
+    import { getEventsByLocation, closeDetails } from "../js/ListEvent.js"; 
+
+    document.querySelector("#search-button").addEventListener("click", getEventsByLocation);
+    document.querySelector("#close-detail-button").addEventListener("click", closeDetails);
+</script>
+
+<script type="module">
+    import { insertionSortTableDescending } from "../js/Leaderboard.js";
+
+    document.querySelector("#table-header-type").addEventListener("click", insertionSortTableDescending);
+    document.querySelector("#table-header-count").addEventListener("click", insertionSortTableDescending);
 </script>
