@@ -1,28 +1,25 @@
-﻿
+﻿const mapForStatisticsboard = new Map();
 
 
-const mapForLeaderboard = new Map();
-
-
-function clearLeaderboardMap() {
-    mapForLeaderboard.clear();
+function clearStatisticsboardMap() {
+    mapForStatisticsboard.clear();
 }
 
 
-export function addTypeToLeaderboardMap(type) {
-    if (mapForLeaderboard.has(type)) {
-        mapForLeaderboard.set(type, mapForLeaderboard.get(type) + 1);
+export function addTypeToStatisticsboardMap(type) {
+    if (mapForStatisticsboard.has(type)) {
+        mapForStatisticsboard.set(type, mapForStatisticsboard.get(type) + 1);
         return;
     }
 
-    mapForLeaderboard.set(type, 1);
+    mapForStatisticsboard.set(type, 1);
 }
 
-export function addItemsToLeaderboard() {
+export function addItemsToStatisticsboardAndSort() {
 
     const tableRef = document.getElementById("leaderboard").getElementsByTagName("tbody")[0];
 
-    mapForLeaderboard.forEach((value, key) => {
+    mapForStatisticsboard.forEach((value, key) => {
         
         const newRow = tableRef.insertRow(-1);
         
@@ -35,10 +32,12 @@ export function addItemsToLeaderboard() {
         const countText = document.createTextNode(value);
         countCell.appendChild(countText);
     });
+
+    insertionSortTableDescending();
 }
 
-export function clearLeaderboard() {
-    clearLeaderboardMap();
+export function clearStatisticsboard() {
+    clearStatisticsboardMap();
     const tableRef = document.getElementById("leaderboard").getElementsByTagName("tbody")[0];
 
     while (tableRef.rows.length > 0) {
@@ -49,7 +48,7 @@ export function clearLeaderboard() {
 //Sorts leaderboard table. Since the contents of leaderboard is very small the time complexity won't make a difference.
 //Therefor an algorithm with lower space complexity is preferred
 
-export function insertionSortTableDescending() {
+function insertionSortTableDescending() {
     let table = document.getElementById("leaderboard");
     
 

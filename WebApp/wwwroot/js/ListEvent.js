@@ -1,4 +1,4 @@
-﻿import { addTypeToLeaderboardMap, addItemsToLeaderboard, clearLeaderboard } from "../js/Leaderboard.js";
+﻿import { addTypeToStatisticsboardMap, addItemsToStatisticsboardAndSort, clearStatisticsboard } from "../js/Statisticsboard.js";
 
 class ListEvent {
     constructor(id, datetime, eventname, summary, url, type, locationName, locationGps) {
@@ -28,7 +28,7 @@ export async function getEventsByLocation() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         mapOfEvents.clear();
-        clearLeaderboard();
+        clearStatisticsboard();
         const data = await response.json();
         data.forEach(item => {
             const event = new ListEvent(
@@ -43,11 +43,11 @@ export async function getEventsByLocation() {
             );
             
             addEventToMap(event);
-            addTypeToLeaderboardMap(item.type);
+            addTypeToStatisticsboardMap(item.type);
         });
 
         addItemsToGrid();
-        addItemsToLeaderboard();
+        addItemsToStatisticsboardAndSort();
 
     } catch (error) {
         console.error('Error fetching police events:', error);
