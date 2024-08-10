@@ -17,7 +17,7 @@ export function addTypeToStatisticsboardMap(type) {
 
 export function addItemsToStatisticsboardAndSort() {
 
-    const tableRef = document.getElementById("leaderboard").getElementsByTagName("tbody")[0];
+    const tableRef = document.getElementById("statistics").getElementsByTagName("tbody")[0];
 
     mapForStatisticsboard.forEach((value, key) => {
         
@@ -38,18 +38,18 @@ export function addItemsToStatisticsboardAndSort() {
 
 export function clearStatisticsboard() {
     clearStatisticsboardMap();
-    const tableRef = document.getElementById("leaderboard").getElementsByTagName("tbody")[0];
+    const tableRef = document.getElementById("statistics").getElementsByTagName("tbody")[0];
 
     while (tableRef.rows.length > 0) {
         tableRef.deleteRow(0);
     }
 }
 
-//Sorts leaderboard table. Since the contents of leaderboard is very small the time complexity won't make a difference.
+//Sorts statistics table. Since the contents of statistics is very small the time complexity won't make a difference.
 //Therefor an algorithm with lower space complexity is preferred
 
 function insertionSortTableDescending() {
-    let table = document.getElementById("leaderboard");
+    let table = document.getElementById("statistics");
     
 
     for (let i = 2; i < table.rows.length; i++) {

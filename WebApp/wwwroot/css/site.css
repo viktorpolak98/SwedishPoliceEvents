@@ -7,7 +7,7 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-.leaderboard {
+.statistics {
     text-align: left;
     display: inline-block;
     border: 1px solid black;
@@ -15,7 +15,7 @@ a.navbar-brand {
     position: fixed;
     top: 0;
     right: 0;
-    height: auto; 
+    height: auto;
     min-height: 30%;
     width: 20em;
     padding: 0px;
@@ -31,7 +31,7 @@ a.navbar-brand {
     padding: 0 1em 0 0.5em;
 }
 
-.leaderboard-header {
+.statistics-header {
     text-align: center;
     color: black;
     font-size: larger;
@@ -41,7 +41,7 @@ a.navbar-brand {
 }
 
 @media screen and (max-width: 1199px) {
-    .leaderboard {
+    .statistics {
         display: none;
     }
 }
