@@ -176,24 +176,28 @@ body {
     margin: 15px;
     height: 9em;
     width: 14.5em;
-    background-color: aquamarine; /* Temporary color to display */
+    background-color: #91fbff;
     flex-basis: 100%;
     border: 1px solid black;
+    border-radius: 25px;
+    cursor: pointer; 
 }
 
 .upper-grid-item {
     text-align: center;
     height: 2em;
-    background-color: blueviolet; /* Temporary color to display */
+    background-color: inherit; 
     padding: 3px; 
     font-size: larger;
+    border-radius: 25px 25px 0px 0px;
 }
 
 .lower-grid-item {
     text-align: center;
     height: 6.5em;
-    background-color: darkgreen; /* Temporary color to display */
+    background-color: inherit; 
     padding: 3px; 
+    border-radius: 0px 0px 25px 25px;
 }
 
 .detail-view {
@@ -203,15 +207,15 @@ body {
     float: right;
     border: 1px solid black;
     inset: 0px;
-    position: fixed; 
-    top: 0; 
+    position: fixed;
+    top: 0;
     left: -13.2%;
     height: 50%;
     width: 45%;
     padding: 0px;
     visibility: hidden;
     font-size: 1.5rem;
-    background-color: lightgray;
+    background-color: mintcream;
     opacity: 0.96;
 }
 
