@@ -217,6 +217,7 @@ body {
     font-size: 1.5rem;
     background-color: mintcream;
     opacity: 0.96;
+    border-radius: 25px;
 }
 
 .detail-view-child {
