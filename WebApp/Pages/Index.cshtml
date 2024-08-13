@@ -43,4 +43,9 @@
 
     document.querySelector("#search-button").addEventListener("click", getEventsByLocation);
     document.querySelector("#close-detail-button").addEventListener("click", closeDetails);
+    document.querySelector("#text-input").addEventListener("keypress", function (e) {
+        if(e.key === "Enter"){
+            getEventsByLocation();
+        }
+    });
 </script>
