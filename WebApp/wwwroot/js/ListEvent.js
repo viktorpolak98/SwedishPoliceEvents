@@ -104,7 +104,7 @@ function clickItem(id) {
         <br /> 
         <b>Location:</b> ${ListEvent.locationName}: ${ListEvent.locationGps}
         <br />
-        <b>Link:</b> <a href="${ListEvent.url}" target="_blank">${ListEvent.url}</a>"
+        <b>Link:</b> <a href="${ListEvent.url}" target="_blank">${ListEvent.eventname}</a>
     </p>
     `
     detailsParent.classList.toggle('show');
