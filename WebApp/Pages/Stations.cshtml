@@ -2,3 +2,9 @@
 @model WebApp.Pages.StationsModel
 @{
 }
+
+<script type="module">
+    import { getAllStations } from "../js/PoliceStation.js";
+
+    window.addEventListener("load", getAllStations);
+</script>
